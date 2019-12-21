@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoundryReports", "FoundryReports\FoundryReports.csproj", "{B421409B-4215-4693-B391-4D0D6DB560B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B421409B-4215-4693-B391-4D0D6DB560B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B421409B-4215-4693-B391-4D0D6DB560B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B421409B-4215-4693-B391-4D0D6DB560B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B421409B-4215-4693-B391-4D0D6DB560B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A49D3B80-42D3-47A6-98E4-1145A2308C3A}
+	EndGlobalSection
+EndGlobal
