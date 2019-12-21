@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using FoundryReports.Core.Customer;
 
 namespace FoundryReports.Core.Products
 {
@@ -10,8 +8,8 @@ namespace FoundryReports.Core.Products
     {
         public Guid Guid { get; set; }
 
-        public IEnumerable<IMoldRequirement> MoldRequirements => MoldRequirementsList;
+        public string Name { get; set; } = "New Product";
 
-        public IList<IMoldRequirement> MoldRequirementsList = new List<IMoldRequirement>();
+        public IList<IMoldRequirement> MoldRequirements { get; set; } = new List<IMoldRequirement>();
     }
 }

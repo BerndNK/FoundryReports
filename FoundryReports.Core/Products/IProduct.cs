@@ -7,7 +7,9 @@ namespace FoundryReports.Core.Products
     {
         Guid Guid { get; }
 
-        IEnumerable<IMoldRequirement> MoldRequirements { get; }
+        string Name { get; set; }
+
+        IList<IMoldRequirement> MoldRequirements { get; }
 
     }
 }

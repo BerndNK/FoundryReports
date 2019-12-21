@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="FoundryReports.View.DataManage.MoldView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:utils="clr-namespace:FoundryReports.View.Utils"
+             xmlns:dataManage="clr-namespace:FoundryReports.ViewModel.DataManage"
+             d:DataContext="{d:DesignInstance d:Type={x:Type dataManage:MoldViewModel}}"
+             mc:Ignorable="d" MinWidth="200" MinHeight="50"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UniformGrid>
+        <utils:DecoratedTextBox Text="{Binding Name}" Header="Name (must be unique)" GhostText="F99"/>
+        <utils:DecoratedTextBox Text="{Binding CurrentUsages}" Header="Current usages" GhostText="0"/>
+        <utils:DecoratedTextBox Text="{Binding MaxUsages}" Header="Max usages" GhostText="5000"/>
+        <utils:DecoratedTextBox Text="{Binding CastingCellAmount}" Header="Casting cell usage" GhostText="1.3"/>
+    </UniformGrid>
+</UserControl>

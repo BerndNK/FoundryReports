@@ -8,14 +8,34 @@
                     xmlns:viewGraph="clr-namespace:FoundryReports.View.Graph">
 
     <DataTemplate DataType="{x:Type viewModel:MainViewModel}">
-        <view:MainView/>
+        <view:MainView />
     </DataTemplate>
 
+    <!--DataManage-->
     <DataTemplate DataType="{x:Type viewModelDataManage:DataManageMainViewModel}">
-        <viewDataManage:DataManageMainView/>
+        <viewDataManage:DataManageMainView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModelDataManage:MoldEditorViewModel}">
+        <viewDataManage:MoldEditorView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModelDataManage:ProductEditorViewModel}">
+        <viewDataManage:ProductEditorView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModelDataManage:MoldViewModel}">
+        <viewDataManage:MoldView />
+    </DataTemplate>
+
+    <!--Graph-->
     <DataTemplate DataType="{x:Type viewModelGraph:GraphMainViewModel}">
         <viewGraph:GraphMainView />
     </DataTemplate>
+
+    <!--Utils-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../View/Utils/DecoratedTextBoxResources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
 </ResourceDictionary>

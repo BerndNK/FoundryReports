@@ -1,14 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FoundryReports.Core.Products;
 
 namespace FoundryReports.Core.Source
 {
     public interface IToolSource
     {
-        IEnumerable<IProduct> AllProducts();
+        IAsyncEnumerable<IProduct> LoadProducts();
 
-        IEnumerable<IMold> AllMolds();
+        IAsyncEnumerable<IMold> LoadMolds();
 
-        void PersistChanges();
+        Task PersistChanges();
+
+        IMold NewMold();
+
+        void RemoveMold(IMold mold);
+
+        IProduct NewProduct();
+
+        void RemoveProduct(IProduct product);
     }
 }

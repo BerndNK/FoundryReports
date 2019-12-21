@@ -3,7 +3,7 @@ using FoundryReports.ViewModel;
 
 namespace FoundryReports
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainViewModel MainViewModel { get; }
 
@@ -12,6 +12,11 @@ namespace FoundryReports
             MainViewModel = new MainViewModel();
             DataContext = this;
             InitializeComponent();
+        }
+
+        private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            await MainViewModel.Load();
         }
     }
 }
