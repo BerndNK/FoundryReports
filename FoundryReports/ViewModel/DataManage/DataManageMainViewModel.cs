@@ -7,7 +7,7 @@ namespace FoundryReports.ViewModel.DataManage
 {
     public class DataManageMainViewModel : BaseViewModel
     {
-        private readonly IToolSource _toolSource;
+        private readonly IDataSource _dataSource;
         private bool _isBusy;
 
         public bool IsBusy
@@ -24,38 +24,42 @@ namespace FoundryReports.ViewModel.DataManage
 
         public ProductEditorViewModel ProductEditor { get; }
 
+        public CustomerEditorViewModel CustomerEditor { get; }
+
         public ICommand PersistCommand { get; }
 
         public ICommand ImportCommand { get; }
 
-        public DataManageMainViewModel(IToolSource toolSource)
+        public DataManageMainViewModel(IDataSource dataSource)
         {
-            _toolSource = toolSource;
-            MoldEditor = new MoldEditorViewModel(toolSource);
-            ProductEditor = new ProductEditorViewModel(toolSource, MoldEditor.Children);
+            _dataSource = dataSource;
+            MoldEditor = new MoldEditorViewModel(dataSource);
+            ProductEditor = new ProductEditorViewModel(dataSource, MoldEditor.Children);
+            CustomerEditor = new CustomerEditorViewModel(dataSource, ProductEditor.Children);
+
             PersistCommand = new DelegateCommand(Persist);
             ImportCommand = new DelegateCommand(Import);
         }
 
         private void Import()
         {
-
             throw new System.NotImplementedException();
         }
 
         private async void Persist()
         {
             IsBusy = true;
-            await _toolSource.PersistChanges();
+            await _dataSource.PersistChanges();
             IsBusy = false;
         }
 
         public async Task Load()
         {
             IsBusy = true;
-            await _toolSource.Load();
+            await _dataSource.Load();
             MoldEditor.Load();
             ProductEditor.Load();
+            CustomerEditor.Load();
             IsBusy = false;
         }
     }

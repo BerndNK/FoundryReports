@@ -9,7 +9,7 @@ namespace FoundryReports.ViewModel.DataManage
 {
     public class ProductEditorViewModel : ListViewModel<ProductViewModel>
     {
-        private readonly IToolSource _toolSource;
+        private readonly IDataSource _dataSource;
 
         private readonly ObservableCollection<MoldViewModel> _availableMolds;
         
@@ -17,9 +17,9 @@ namespace FoundryReports.ViewModel.DataManage
 
         public bool IsBusy { get; set; }
 
-        public ProductEditorViewModel(IToolSource toolSource, ObservableCollection<MoldViewModel> availableMolds)
+        public ProductEditorViewModel(IDataSource dataSource, ObservableCollection<MoldViewModel> availableMolds)
         {
-            _toolSource = toolSource;
+            _dataSource = dataSource;
             _availableMolds = availableMolds;
             ImportCommand = new DelegateCommand(Import);
         }
@@ -63,7 +63,7 @@ namespace FoundryReports.ViewModel.DataManage
         public void Load()
         {
             Children.Clear();
-            foreach (var product in _toolSource.Products)
+            foreach (var product in _dataSource.Products)
             {
                 Children.Add(new ProductViewModel(product, _availableMolds));
             }
@@ -71,13 +71,13 @@ namespace FoundryReports.ViewModel.DataManage
 
         protected override ProductViewModel NewViewModel()
         {
-            var newProduct = _toolSource.NewProduct();
+            var newProduct = _dataSource.NewProduct();
             return new ProductViewModel(newProduct, _availableMolds);
         }
 
         protected override void RemoveFromModel(ProductViewModel viewModel)
         {
-            _toolSource.RemoveProduct(viewModel.Product);
+            _dataSource.RemoveProduct(viewModel.Product);
         }
     }
 }

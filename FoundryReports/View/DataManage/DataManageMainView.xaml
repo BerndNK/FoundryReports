@@ -23,6 +23,10 @@
                     <ContentControl Content="{Binding ProductEditor}" />
                 </GroupBox>
 
+                <GroupBox Margin="5" Header="Customer">
+                    <ContentControl Content="{Binding CustomerEditor}" />
+                </GroupBox>
+
             </StackPanel>
         </ScrollViewer>
 

@@ -1,6 +1,6 @@
 ﻿using System;
-using FoundryReports.Core.Customer;
-using FoundryReports.Core.Customer.Visualization;
+using FoundryReports.Core.Reports;
+using FoundryReports.Core.Reports.Visualization;
 
 namespace FoundryReports.Core.Source
 {

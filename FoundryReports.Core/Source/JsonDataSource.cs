@@ -1,29 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FoundryReports.Core.Products;
+using FoundryReports.Core.Reports;
 using Newtonsoft.Json;
 
 namespace FoundryReports.Core.Source
 {
-    public class JsonToolSource : IToolSource
+    public class JsonDataSource : JsonSourceBase, IDataSource
     {
         private const string MoldsPath = "molds.json";
 
         private const string ProductsPath = "products.json";
-
+        
+        private const string CustomerPath = "customer.json";
+        
         private IList<Mold> _molds = new List<Mold>();
 
         private IList<Product> _products = new List<Product>();
 
-        private static JsonSerializerSettings SerializerSettings { get; } = new JsonSerializerSettings
-            {TypeNameHandling = TypeNameHandling.Objects, Formatting = Formatting.Indented};
-        
+        private IList<Customer> _customer = new List<Customer>();
+
         public IEnumerable<IProduct> Products => _products;
 
         public IEnumerable<IMold> Molds => _molds;
+
+        public IEnumerable<ICustomer> Customer => _customer;
 
         public async Task Load()
         {
@@ -44,7 +46,7 @@ namespace FoundryReports.Core.Source
 
             foreach (var product in products)
             {
-                // as the data is serialized, Mold instance would not be the same as the ones stored within the molds file. Therefore the connection is set here, through the molds name
+                // as the data is serialized, Mold instances would not be the same as the ones stored within the file. Therefore the connection is set here, through the name
                 foreach (var moldRequirement in product.MoldRequirementList)
                 {
                     var correspondingMold = _molds.FirstOrDefault(m => m.Name == moldRequirement.MoldName);
@@ -58,32 +60,31 @@ namespace FoundryReports.Core.Source
             _products = products;
         }
 
-        private async Task<T> Deserialize<T>(string filePath) where T : class, new()
+        public async Task LoadCustomer()
         {
-            var content = await GetOrCreateFile(filePath);
-            T? result = null;
-            try
+            var customer = await Deserialize<List<Customer>>(CustomerPath);
+            
+            foreach (var singleCustomer in customer)
             {
-                result = JsonConvert.DeserializeObject<T>(content, SerializerSettings);
-            }
-            catch (Exception)
-            {
-                // log exception here. (which is omitted within the scope of this project)
-            }
-
-            if (result == null)
-            {
-                result = new T();
-                await WriteFile(filePath, JsonConvert.SerializeObject(result, SerializerSettings));
+                // as the data is serialized, monthly usage instances would not be the same as the ones stored within the file. Therefore the connection is set here, through the name
+                foreach (var monthlyProductReport in singleCustomer.MonthlyProductReportsList)
+                {
+                    var correspondingProduct = _products.FirstOrDefault(m => m.Name == monthlyProductReport.ProductName);
+                    if(correspondingProduct == null)
+                        continue; // continuing here would indicate that the existing data is somehow corrupt. Ideally log and present to user, however for the scope of this project omitted
+                    
+                    monthlyProductReport.ForProduct = correspondingProduct;
+                }
             }
 
-            return result;
+            _customer = customer;
         }
 
         public async Task PersistChanges()
         {
             await WriteFile(MoldsPath, JsonConvert.SerializeObject(_molds, SerializerSettings));
             await WriteFile(ProductsPath, JsonConvert.SerializeObject(_products, SerializerSettings));
+            await WriteFile(CustomerPath, JsonConvert.SerializeObject(_customer, SerializerSettings));
         }
 
         public IMold NewMold()
@@ -118,33 +119,19 @@ namespace FoundryReports.Core.Source
             _products.Remove(existingProduct);
         }
 
-        private async Task WriteFile(string path, string content)
+        public ICustomer AddCustomer()
         {
-            try
-            {
-                await File.WriteAllTextAsync(path, content);
-            }
-            catch (Exception)
-            {
-                // log exception here. (which is omitted within the scope of this project)
-            }
+            var customer = new Customer();
+            _customer.Add(customer);
+            return customer;
         }
 
-        private async Task<string> GetOrCreateFile(string path)
+        public void RemoveCustomer(ICustomer item)
         {
-            try
+            var existingCustomer = _customer.FirstOrDefault(c => ReferenceEquals(c, item));
+            if (existingCustomer != null)
             {
-                if (File.Exists(path))
-                    return await File.ReadAllTextAsync(path);
-
-                File.Create(path);
-
-                return string.Empty;
-            }
-            catch (Exception)
-            {
-                // log exception here. (which is omitted within the scope of this project)
-                return string.Empty;
+                _customer.Remove(existingCustomer);
             }
         }
     }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using FoundryReports.Core.Customer.Visualization;
 using FoundryReports.Core.Products;
+using FoundryReports.Core.Reports.Visualization;
 
-namespace FoundryReports.Core.Customer
+namespace FoundryReports.Core.Reports
 {
     public interface ICustomerOverview
     {

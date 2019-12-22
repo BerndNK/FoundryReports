@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FoundryReports.Core.Customer.Visualization
+namespace FoundryReports.Core.Reports.Visualization
 {
     public interface ITrend : ICollection<IMonthlyProductReport>
     {

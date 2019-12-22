@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="FoundryReports.View.DataManage.MonthlyProductUsageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:utils="clr-namespace:FoundryReports.View.Utils"
+             xmlns:dataManage="clr-namespace:FoundryReports.ViewModel.DataManage"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type={x:Type dataManage:MonthlyProductUsageViewModel}}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UniformGrid Rows="1">
+        <StackPanel Orientation="Vertical" Margin="5,0">
+            <TextBlock Text="Product" FontWeight="Bold" FontSize="8"/>
+            <ComboBox ItemsSource="{Binding AvailableProducts}" SelectedItem="{Binding SelectedProduct}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        <utils:DecoratedTextBox Text="{Binding Value}" Header="Value" GhostText="5" Margin="5,0"/>
+        <utils:DecoratedTextBox Text="{Binding Year}" Header="Year" GhostText="2020" Margin="5,0"/>
+        
+        <StackPanel Orientation="Vertical" Margin="5,0">
+            <TextBlock Text="Month" FontWeight="Bold" FontSize="8"/>
+            <ComboBox SelectedItem="{Binding Month}">
+                <ComboBox.ItemsSource>
+                    <CompositeCollection>
+                        <dataManage:Month>January</dataManage:Month>
+                        <dataManage:Month>February</dataManage:Month>
+                        <dataManage:Month>March</dataManage:Month>
+                        <dataManage:Month>April</dataManage:Month>
+                        <dataManage:Month>May</dataManage:Month>
+                        <dataManage:Month>June</dataManage:Month>
+                        <dataManage:Month>July</dataManage:Month>
+                        <dataManage:Month>August</dataManage:Month>
+                        <dataManage:Month>September</dataManage:Month>
+                        <dataManage:Month>October</dataManage:Month>
+                        <dataManage:Month>November</dataManage:Month>
+                        <dataManage:Month>December</dataManage:Month>
+                    </CompositeCollection>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+        </StackPanel>
+
+    </UniformGrid>
+</UserControl>

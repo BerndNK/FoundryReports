@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dataManage="clr-namespace:FoundryReports.ViewModel.DataManage"
-             xmlns:utils="clr-namespace:FoundryReports.View.Utils" MinHeight="50"
+             xmlns:utils="clr-namespace:FoundryReports.View.Utils"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance Type={x:Type dataManage:MoldRequirementViewModel}}"
              d:DesignHeight="450" d:DesignWidth="800">
     

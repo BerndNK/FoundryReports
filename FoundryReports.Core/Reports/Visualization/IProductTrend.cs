@@ -1,6 +1,6 @@
 ﻿using FoundryReports.Core.Products;
 
-namespace FoundryReports.Core.Customer.Visualization
+namespace FoundryReports.Core.Reports.Visualization
 {
     public interface IProductTrend : ITrend
     {

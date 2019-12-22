@@ -24,6 +24,18 @@
         <viewDataManage:ProductEditorView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModelDataManage:CustomerEditorViewModel}">
+        <viewDataManage:CustomerEditorView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModelDataManage:CustomerViewModel}">
+        <viewDataManage:CustomerView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModelDataManage:MonthlyProductUsageViewModel}">
+        <viewDataManage:MonthlyProductUsageView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type viewModelDataManage:MoldViewModel}">
         <viewDataManage:MoldView />
     </DataTemplate>

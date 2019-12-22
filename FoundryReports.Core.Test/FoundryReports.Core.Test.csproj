@@ -7,9 +7,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Source\TestData\CustomerX.csv" />
+    <None Remove="Source\TestData\Molds.csv" />
+    <None Remove="Source\TestData\Products.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Source\TestData\CustomerX.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Source\TestData\Molds.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Source\TestData\Products.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FoundryReports.Core\FoundryReports.Core.csproj" />
   </ItemGroup>
 
 </Project>

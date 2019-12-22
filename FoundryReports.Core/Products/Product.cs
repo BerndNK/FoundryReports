@@ -10,10 +10,9 @@ namespace FoundryReports.Core.Products
     {
         public string Name { get; set; } = "New Product";
 
-        [JsonIgnore]
-        public IEnumerable<IMoldRequirement> MoldRequirements => MoldRequirementList;
+        [JsonIgnore] public IEnumerable<IMoldRequirement> MoldRequirements => MoldRequirementList;
 
-        public IList<MoldRequirement> MoldRequirementList = new List<MoldRequirement>();
+        public IList<MoldRequirement> MoldRequirementList { get; } = new List<MoldRequirement>();
 
         public IMoldRequirement AddItem()
         {
@@ -25,7 +24,8 @@ namespace FoundryReports.Core.Products
         public void Remove(IMoldRequirement moldRequirement)
         {
             var existingElement = MoldRequirementList.FirstOrDefault(r => ReferenceEquals(r, moldRequirement));
-            if(existingElement != null)
+
+            if (existingElement != null)
             {
                 MoldRequirementList.Remove(existingElement);
             }

@@ -8,15 +8,15 @@ namespace FoundryReports.ViewModel.DataManage
 {
     public class MoldEditorViewModel : ListViewModel<MoldViewModel>
     {
-        private readonly IToolSource _toolSource;
+        private readonly IDataSource _dataSource;
 
         public ICommand ImportCommand { get; set; }
 
         public bool IsBusy { get; set; }
 
-        public MoldEditorViewModel(IToolSource toolSource)
+        public MoldEditorViewModel(IDataSource dataSource)
         {
-            _toolSource = toolSource;
+            _dataSource = dataSource;
             ImportCommand = new DelegateCommand(Import);
         }
 
@@ -47,7 +47,7 @@ namespace FoundryReports.ViewModel.DataManage
         public void Load()
         {
             Children.Clear();
-            foreach (var mold in _toolSource.Molds)
+            foreach (var mold in _dataSource.Molds)
             {
                 Children.Add(new MoldViewModel(mold));
             }
@@ -55,13 +55,13 @@ namespace FoundryReports.ViewModel.DataManage
 
         protected override MoldViewModel NewViewModel()
         {
-            var newMold = _toolSource.NewMold();
+            var newMold = _dataSource.NewMold();
             return new MoldViewModel(newMold);
         }
 
         protected override void RemoveFromModel(MoldViewModel viewModel)
         {
-            _toolSource.RemoveMold(viewModel.Mold);
+            _dataSource.RemoveMold(viewModel.Mold);
         }
     }
 }

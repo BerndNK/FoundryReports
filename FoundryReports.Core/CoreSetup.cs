@@ -4,11 +4,11 @@ namespace FoundryReports.Core
 {
     public class CoreSetup
     {
-        public IToolSource ToolSource { get; }
+        public IDataSource DataSource { get; }
 
         public CoreSetup()
         {
-            ToolSource = new JsonToolSource();
+            DataSource = new JsonDataSource();
         }
     }
 }

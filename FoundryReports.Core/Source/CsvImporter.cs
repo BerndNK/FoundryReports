@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FoundryReports.Core.Products;
+using FoundryReports.Core.Reports;
+using FoundryReports.Core.Reports.Visualization;
 
 namespace FoundryReports.Core.Source
 {
@@ -71,6 +73,57 @@ namespace FoundryReports.Core.Source
             }
         }
 
+        public async Task<ICustomer> ImportCustomerFromCsv(string csvPath)
+        {
+            var customerName = Path.GetFileNameWithoutExtension(csvPath);
+            var customerTable = await ReadCsvAsStringTable(csvPath);
+
+            var usedMonths = new List<string>();
+            var newCustomer = new Customer {Name = customerName};
+
+            foreach (var line in customerTable)
+            {
+                // the first line is expected to name the months
+                if (usedMonths.Count == 0)
+                {
+                    // the very first column is empty, as it is the column for the product names
+                    usedMonths.AddRange(line.Skip(1));
+                    continue;
+                }
+
+                if (line.Count < 1)
+                    continue;
+
+                var productName = line[0];
+                var usageValues = line.Skip(1).ToList();
+
+                var monthlyProductReports = ToMonthlyProductReports(usageValues, usedMonths);
+
+                foreach (var monthlyProductReport in monthlyProductReports)
+                {
+                    var newRequirement = newCustomer.AddItem();
+                    newRequirement.ForMonth = monthlyProductReport.ForMonth;
+                    newRequirement.Value = monthlyProductReport.Value;
+                    newRequirement.ForProduct = new ProductDummy {Name = productName};
+                }
+            }
+
+            return newCustomer;
+        }
+
+        private IEnumerable<IMonthlyProductReport> ToMonthlyProductReports(List<string> usageValues, List<string> dates)
+        {
+            var count = Math.Min(usageValues.Count, dates.Count);
+
+            for (var i = 0; i < count; i++)
+            {
+                var date = AsDateTime(dates[i]);
+                var usageValue = AsInt(usageValues[i]);
+
+                yield return new MonthlyProductReport {ForMonth = date, Value = usageValue};
+            }
+        }
+
         private IEnumerable<IMoldRequirement> ToRequirements(IList<string> moldValues, IList<string> moldNames)
         {
             var count = Math.Min(moldValues.Count, moldNames.Count);
@@ -79,7 +132,7 @@ namespace FoundryReports.Core.Source
             {
                 var moldName = moldNames[i];
                 var moldValue = AsDecimal(moldValues[i]);
-                var correspondingMold = new MoldDummy {Name = moldName };
+                var correspondingMold = new MoldDummy {Name = moldName};
 
                 yield return new MoldRequirement(correspondingMold, moldValue);
             }
@@ -96,6 +149,16 @@ namespace FoundryReports.Core.Source
             }
 
             return default;
+        }
+
+        private DateTime AsDateTime(string dateAsString)
+        {
+            if (DateTime.TryParse(dateAsString, out var asDateTime))
+            {
+                return asDateTime;
+            }
+
+            return DateTime.Now;
         }
 
         private int AsInt(string stringRepresentation)

@@ -14,7 +14,7 @@ namespace FoundryReports.ViewModel
         public MainViewModel()
         {
             var setup = new CoreSetup();
-            DataManage = new DataManageMainViewModel(setup.ToolSource);
+            DataManage = new DataManageMainViewModel(setup.DataSource);
         }
         
         public async Task Load()
