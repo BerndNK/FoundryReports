@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace FoundryReports.Core.Products
+﻿namespace FoundryReports.Core.Products
 {
     public interface IMoldRequirement
     {

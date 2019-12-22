@@ -14,7 +14,7 @@
             <TextBlock Text="Mold Requirements:" DockPanel.Dock="Top" FontWeight="Bold" FontSize="8" Margin="5"/>
             <Border DockPanel.Dock="Left" Margin="5,0" BorderBrush="Gray" BorderThickness="1">
                 <StackPanel Orientation="Vertical">
-                    <ListBox ItemsSource="{Binding MoldRequirements}" x:Name="MoldRequirementSelection" BorderBrush="Transparent" SelectedIndex="0"
+                    <ListBox ItemsSource="{Binding Children}" x:Name="MoldRequirementSelection" BorderBrush="Transparent" SelectedIndex="0"
                              MaxHeight="300">
                         <ListBox.ItemTemplate>
                             <DataTemplate>

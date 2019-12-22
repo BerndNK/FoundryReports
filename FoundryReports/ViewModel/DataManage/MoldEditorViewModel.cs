@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows.Input;
 using FoundryReports.Core.Source;
 using FoundryReports.Utils;
@@ -7,15 +6,9 @@ using Microsoft.Win32;
 
 namespace FoundryReports.ViewModel.DataManage
 {
-    public class MoldEditorViewModel : BaseViewModel
+    public class MoldEditorViewModel : ListViewModel<MoldViewModel>
     {
         private readonly IToolSource _toolSource;
-
-        public ObservableCollection<MoldViewModel> Molds { get; } = new ObservableCollection<MoldViewModel>();
-
-        public ICommand AddItemCommand { get; }
-
-        public ICommand RemoveItemCommand { get; }
 
         public ICommand ImportCommand { get; set; }
 
@@ -24,8 +17,6 @@ namespace FoundryReports.ViewModel.DataManage
         public MoldEditorViewModel(IToolSource toolSource)
         {
             _toolSource = toolSource;
-            AddItemCommand = new DelegateCommand(() => AddItem());
-            RemoveItemCommand = new DelegateCommand<MoldViewModel>(RemoveItem);
             ImportCommand = new DelegateCommand(Import);
         }
 
@@ -41,7 +32,8 @@ namespace FoundryReports.ViewModel.DataManage
 
                 await foreach (var importedMold in importedMolds)
                 {
-                    var newMold = AddItem();
+                    // use existing or create new item, to allow importer to enrich data
+                    var newMold = Children.FirstOrDefault(m => m.Name == importedMold.Name) ?? AddItem();
                     newMold.Name = importedMold.Name;
                     newMold.CurrentUsages = importedMold.CurrentUsages;
                     newMold.MaxUsages = importedMold.MaxUsages;
@@ -54,31 +46,22 @@ namespace FoundryReports.ViewModel.DataManage
 
         public void Load()
         {
-            Molds.Clear();
+            Children.Clear();
             foreach (var mold in _toolSource.Molds)
             {
-                Molds.Add(new MoldViewModel(mold));
+                Children.Add(new MoldViewModel(mold));
             }
         }
 
-        private MoldViewModel AddItem()
+        protected override MoldViewModel NewViewModel()
         {
             var newMold = _toolSource.NewMold();
-            var moldViewModel = new MoldViewModel(newMold);
-            Molds.Add(moldViewModel);
-
-            return moldViewModel;
+            return new MoldViewModel(newMold);
         }
 
-        private void RemoveItem(MoldViewModel? moldViewModel)
+        protected override void RemoveFromModel(MoldViewModel viewModel)
         {
-            if (moldViewModel == null)
-                return;
-
-            if (Molds.Remove(moldViewModel))
-            {
-                _toolSource.RemoveMold(moldViewModel.Mold);
-            }
+            _toolSource.RemoveMold(viewModel.Mold);
         }
     }
 }

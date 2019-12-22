@@ -62,7 +62,7 @@ namespace FoundryReports.Core.Source
                 var newProduct = new Product {Name = name};
                 foreach (var moldRequirement in moldRequirements)
                 {
-                    var newRequirement = newProduct.AddMoldRequirement();
+                    var newRequirement = newProduct.AddItem();
                     newRequirement.Mold = moldRequirement.Mold;
                     newRequirement.UsageAmount = moldRequirement.UsageAmount;
                 }

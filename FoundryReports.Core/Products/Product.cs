@@ -15,7 +15,7 @@ namespace FoundryReports.Core.Products
 
         public IList<MoldRequirement> MoldRequirementList = new List<MoldRequirement>();
 
-        public IMoldRequirement AddMoldRequirement()
+        public IMoldRequirement AddItem()
         {
             var newMoldRequirement = new MoldRequirement();
             MoldRequirementList.Add(newMoldRequirement);

@@ -7,18 +7,12 @@ using Microsoft.Win32;
 
 namespace FoundryReports.ViewModel.DataManage
 {
-    public class ProductEditorViewModel : BaseViewModel
+    public class ProductEditorViewModel : ListViewModel<ProductViewModel>
     {
         private readonly IToolSource _toolSource;
 
         private readonly ObservableCollection<MoldViewModel> _availableMolds;
-
-        public ObservableCollection<ProductViewModel> Products { get; } = new ObservableCollection<ProductViewModel>();
-
-        public ICommand AddItemCommand { get; }
-
-        public ICommand RemoveItemCommand { get; }
-
+        
         public ICommand ImportCommand { get; set; }
 
         public bool IsBusy { get; set; }
@@ -27,15 +21,13 @@ namespace FoundryReports.ViewModel.DataManage
         {
             _toolSource = toolSource;
             _availableMolds = availableMolds;
-            AddItemCommand = new DelegateCommand(() => AddItem());
-            RemoveItemCommand = new DelegateCommand<ProductViewModel>(RemoveItem);
             ImportCommand = new DelegateCommand(Import);
         }
 
         private async void Import()
         {
-            var fileChooser = new OpenFileDialog();
-            fileChooser.Filter = "Comma delimited (*.csv)|*.csv";
+            var fileChooser = new OpenFileDialog {Filter = "Comma delimited (*.csv)|*.csv"};
+
             if (fileChooser.ShowDialog() == true)
             {
                 IsBusy = true;
@@ -44,14 +36,19 @@ namespace FoundryReports.ViewModel.DataManage
 
                 await foreach (var importedProduct in importedProducts)
                 {
-                    var newProduct = AddItem();
+                    // use existing or create new item, to allow importer to enrich data
+                    var newProduct = Children.FirstOrDefault(p => p.Name == importedProduct.Name) ?? AddItem();
                     newProduct.Name = importedProduct.Name;
                     foreach (var productMoldRequirement in importedProduct.MoldRequirements)
                     {
-                        var newMoldRequirement = newProduct.AddItem();
+                        // use existing or create new item, to allow importer to enrich data
+                        var newMoldRequirement =
+                            newProduct.Children.FirstOrDefault(r =>
+                                r.SelectedMold?.Name == productMoldRequirement.Mold.Name) ?? newProduct.AddItem();
                         newMoldRequirement.UsageAmount = productMoldRequirement.UsageAmount;
 
-                        var correspondingMold = _availableMolds.FirstOrDefault(m => m.Name == productMoldRequirement.Mold.Name);
+                        var correspondingMold =
+                            _availableMolds.FirstOrDefault(m => m.Name == productMoldRequirement.Mold.Name);
                         if (correspondingMold == null)
                             continue; // ideally log that the referenced mold was not found, but due to the scope of ths project this is omitted
 
@@ -65,31 +62,22 @@ namespace FoundryReports.ViewModel.DataManage
 
         public void Load()
         {
-            Products.Clear();
+            Children.Clear();
             foreach (var product in _toolSource.Products)
             {
-                Products.Add(new ProductViewModel(product, _availableMolds));
+                Children.Add(new ProductViewModel(product, _availableMolds));
             }
         }
 
-        private ProductViewModel AddItem()
+        protected override ProductViewModel NewViewModel()
         {
             var newProduct = _toolSource.NewProduct();
-            var productViewModel = new ProductViewModel(newProduct, _availableMolds);
-            Products.Add(productViewModel);
-
-            return productViewModel;
+            return new ProductViewModel(newProduct, _availableMolds);
         }
 
-        private void RemoveItem(ProductViewModel? productViewModel)
+        protected override void RemoveFromModel(ProductViewModel viewModel)
         {
-            if (productViewModel == null)
-                return;
-
-            if (Products.Remove(productViewModel))
-            {
-                _toolSource.RemoveProduct(productViewModel.Product);
-            }
+            _toolSource.RemoveProduct(viewModel.Product);
         }
     }
 }

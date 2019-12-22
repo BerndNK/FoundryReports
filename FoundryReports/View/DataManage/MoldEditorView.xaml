@@ -14,7 +14,7 @@
                     HorizontalAlignment="Right" Margin="0,5,0,0" />
             <Border DockPanel.Dock="Left" Margin="5,0" BorderBrush="Gray" BorderThickness="1">
                 <StackPanel Orientation="Vertical">
-                    <ListBox ItemsSource="{Binding Molds}" x:Name="MoldSelection" BorderBrush="Transparent"
+                    <ListBox ItemsSource="{Binding Children}" x:Name="MoldSelection" BorderBrush="Transparent"
                              MaxHeight="300" SelectedIndex="0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>

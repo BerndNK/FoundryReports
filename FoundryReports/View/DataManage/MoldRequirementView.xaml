@@ -2,11 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FoundryReports.View.DataManage"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dataManage="clr-namespace:FoundryReports.ViewModel.DataManage"
-             xmlns:view="clr-namespace:FoundryReports.View"
-             xmlns:converter="clr-namespace:FoundryReports.Converter"
              xmlns:utils="clr-namespace:FoundryReports.View.Utils" MinHeight="50"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance Type={x:Type dataManage:MoldRequirementViewModel}}"
              d:DesignHeight="450" d:DesignWidth="800">

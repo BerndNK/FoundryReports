@@ -32,7 +32,7 @@ namespace FoundryReports.ViewModel.DataManage
         {
             _toolSource = toolSource;
             MoldEditor = new MoldEditorViewModel(toolSource);
-            ProductEditor = new ProductEditorViewModel(toolSource, MoldEditor.Molds);
+            ProductEditor = new ProductEditorViewModel(toolSource, MoldEditor.Children);
             PersistCommand = new DelegateCommand(Persist);
             ImportCommand = new DelegateCommand(Import);
         }
