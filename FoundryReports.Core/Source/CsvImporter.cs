@@ -48,6 +48,7 @@ namespace FoundryReports.Core.Source
                 {
                     // the very first column is empty, as it is the column for the product names
                     usedMolds.AddRange(line.Skip(1));
+                    continue;
                 }
 
                 if (line.Count < 1)
@@ -61,7 +62,9 @@ namespace FoundryReports.Core.Source
                 var newProduct = new Product {Name = name};
                 foreach (var moldRequirement in moldRequirements)
                 {
-                    newProduct.MoldRequirements.Add(moldRequirement);
+                    var newRequirement = newProduct.AddMoldRequirement();
+                    newRequirement.Mold = moldRequirement.Mold;
+                    newRequirement.UsageAmount = moldRequirement.UsageAmount;
                 }
 
                 yield return newProduct;

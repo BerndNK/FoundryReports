@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace FoundryReports.Core.Products
 {
     public interface IProduct
     {
-        Guid Guid { get; }
-
         string Name { get; set; }
 
-        IList<IMoldRequirement> MoldRequirements { get; }
+        IEnumerable<IMoldRequirement> MoldRequirements { get; }
 
+        IMoldRequirement AddMoldRequirement();
+
+        void Remove(IMoldRequirement moldRequirement);
     }
 }

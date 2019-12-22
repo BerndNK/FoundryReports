@@ -6,9 +6,11 @@ namespace FoundryReports.Core.Source
 {
     public interface IToolSource
     {
-        IAsyncEnumerable<IProduct> LoadProducts();
+        Task Load();
 
-        IAsyncEnumerable<IMold> LoadMolds();
+        IEnumerable<IProduct> Products { get; }
+
+        IEnumerable<IMold> Molds { get; }
 
         Task PersistChanges();
 

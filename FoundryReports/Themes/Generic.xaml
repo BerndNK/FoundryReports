@@ -28,6 +28,14 @@
         <viewDataManage:MoldView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModelDataManage:ProductViewModel}">
+        <viewDataManage:ProductView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModelDataManage:MoldRequirementViewModel}">
+        <viewDataManage:MoldRequirementView />
+    </DataTemplate>
+
     <!--Graph-->
     <DataTemplate DataType="{x:Type viewModelGraph:GraphMainViewModel}">
         <viewGraph:GraphMainView />

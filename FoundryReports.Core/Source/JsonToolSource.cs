@@ -20,29 +20,42 @@ namespace FoundryReports.Core.Source
 
         private static JsonSerializerSettings SerializerSettings { get; } = new JsonSerializerSettings
             {TypeNameHandling = TypeNameHandling.Objects, Formatting = Formatting.Indented};
+        
+        public IEnumerable<IProduct> Products => _products;
 
-        public async IAsyncEnumerable<IProduct> LoadProducts()
+        public IEnumerable<IMold> Molds => _molds;
+
+        public async Task Load()
         {
-            var products = await Deserialize<List<Product>>(ProductsPath);
-
-            _products = products;
-
-            foreach (var product in products)
-            {
-                yield return product;
-            }
+            await LoadMolds();
+            await LoadProducts();
         }
 
-        public async IAsyncEnumerable<IMold> LoadMolds()
+        private async Task LoadMolds()
         {
             var molds = await Deserialize<List<Mold>>(MoldsPath);
 
             _molds = molds;
+        }
 
-            foreach (var mold in molds)
+        private async Task LoadProducts()
+        {
+            var products = await Deserialize<List<Product>>(ProductsPath);
+
+            foreach (var product in products)
             {
-                yield return mold;
+                // as the data is serialized, Mold instance would not be the same as the ones stored within the molds file. Therefore the connection is set here, through the molds name
+                foreach (var moldRequirement in product.MoldRequirementList)
+                {
+                    var correspondingMold = _molds.FirstOrDefault(m => m.Name == moldRequirement.MoldName);
+                    if(correspondingMold == null)
+                        continue; // continuing here would indicate that the existing data is somehow corrupt. Ideally log and present to user, however for the scope of this project omitted
+                    
+                    moldRequirement.Mold = correspondingMold;
+                }
             }
+
+            _products = products;
         }
 
         private async Task<T> Deserialize<T>(string filePath) where T : class, new()
@@ -69,9 +82,8 @@ namespace FoundryReports.Core.Source
 
         public async Task PersistChanges()
         {
-            await Task.Delay(500);
             await WriteFile(MoldsPath, JsonConvert.SerializeObject(_molds, SerializerSettings));
-            await WriteFile(ProductsPath, JsonConvert.SerializeObject(_molds, SerializerSettings));
+            await WriteFile(ProductsPath, JsonConvert.SerializeObject(_products, SerializerSettings));
         }
 
         public IMold NewMold()
@@ -110,7 +122,6 @@ namespace FoundryReports.Core.Source
         {
             try
             {
-                await Task.Delay(2500);
                 await File.WriteAllTextAsync(path, content);
             }
             catch (Exception)

@@ -33,7 +33,7 @@ namespace FoundryReports.ViewModel.DataManage
         {
             var fileChooser = new OpenFileDialog();
             fileChooser.Filter = "Comma delimited (*.csv)|*.csv";
-            if(fileChooser.ShowDialog() == true)
+            if (fileChooser.ShowDialog() == true)
             {
                 IsBusy = true;
                 var csvImporter = new CsvImporter();
@@ -52,10 +52,10 @@ namespace FoundryReports.ViewModel.DataManage
             }
         }
 
-        public async Task Load()
+        public void Load()
         {
             Molds.Clear();
-            await foreach (var mold in _toolSource.LoadMolds())
+            foreach (var mold in _toolSource.Molds)
             {
                 Molds.Add(new MoldViewModel(mold));
             }
@@ -75,7 +75,7 @@ namespace FoundryReports.ViewModel.DataManage
             if (moldViewModel == null)
                 return;
 
-            if(Molds.Remove(moldViewModel))
+            if (Molds.Remove(moldViewModel))
             {
                 _toolSource.RemoveMold(moldViewModel.Mold);
             }

@@ -32,7 +32,7 @@ namespace FoundryReports.ViewModel.DataManage
         {
             _toolSource = toolSource;
             MoldEditor = new MoldEditorViewModel(toolSource);
-            ProductEditor = new ProductEditorViewModel(toolSource);
+            ProductEditor = new ProductEditorViewModel(toolSource, MoldEditor.Molds);
             PersistCommand = new DelegateCommand(Persist);
             ImportCommand = new DelegateCommand(Import);
         }
@@ -53,7 +53,9 @@ namespace FoundryReports.ViewModel.DataManage
         public async Task Load()
         {
             IsBusy = true;
-            await Task.WhenAll(MoldEditor.Load(), ProductEditor.Load());
+            await _toolSource.Load();
+            MoldEditor.Load();
+            ProductEditor.Load();
             IsBusy = false;
         }
     }

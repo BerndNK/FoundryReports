@@ -4,8 +4,8 @@ namespace FoundryReports.Core.Products
 {
     public interface IMoldRequirement
     {
-        IMold Mold { get; }
-        
-        decimal CastingCellAmount { get; }
+        IMold Mold { get; set; }
+
+        decimal UsageAmount { get; set; }
     }
 }

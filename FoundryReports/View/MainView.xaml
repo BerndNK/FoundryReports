@@ -10,15 +10,11 @@
 
     <TabControl>
         <TabItem Header="Graph">
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                <ContentPresenter Content="{Binding Graph}" />
-            </ScrollViewer>
+            <ContentPresenter Content="{Binding Graph}" />
         </TabItem>
 
         <TabItem Header="Data">
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                <ContentPresenter Content="{Binding DataManage}" />
-            </ScrollViewer>
+            <ContentPresenter Content="{Binding DataManage}" />
         </TabItem>
     </TabControl>
 </UserControl>
