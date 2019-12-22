@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="FoundryReports.View.Graph.TrendOfSingleMonthOfOneProductView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:graph="clr-namespace:FoundryReports.ViewModel.Graph"
+             xmlns:converter="clr-namespace:FoundryReports.Converter"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type={x:Type graph:TrendSegmentOfSingleMonthOfOneProductViewModel}}"
+             d:DesignHeight="450" d:DesignWidth="800" Width="50" Height="200" Visibility="{Binding IsVisible, Converter={x:Static converter:BoolToVisibility.Normal}}">
+    <Canvas>
+    <Line X1="{Binding LineSegmentStartX}" Y1="{Binding LineSegmentStartY}" StrokeDashArray="{Binding IsSegmentBeforeDotted, Converter={x:Static converter:BoolToStrokeDashArray.Instance}}"
+          X2="{Binding LineSegmentCenterX}" Y2="{Binding LineSegmentCenterY}" Stroke="{Binding StrokeColor, Converter={x:Static converter:ColorToBrush.Instance}}" StrokeThickness="2" StrokeEndLineCap="Square" StrokeStartLineCap="Square"/>
+
+    <Line X1="{Binding LineSegmentCenterX}" Y1="{Binding LineSegmentCenterY}" StrokeDashArray="{Binding IsSegmentAfterDotted, Converter={x:Static converter:BoolToStrokeDashArray.Instance}}"
+          X2="{Binding LineSegmentEndX}" Y2="{Binding LineSegmentEndY}" Stroke="{Binding StrokeColor, Converter={x:Static converter:ColorToBrush.Instance}}" StrokeThickness="2" StrokeEndLineCap="Square" StrokeStartLineCap="Square"/>
+    </Canvas>
+</UserControl>

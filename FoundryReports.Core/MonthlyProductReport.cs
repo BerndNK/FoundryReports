@@ -12,7 +12,7 @@ namespace FoundryReports.Core
 
         public DateTime ForMonth { get; set; } = DateTime.Today;
 
-        public int Value { get; set; }
+        public decimal Value { get; set; }
 
         private IProduct? _productInstance;
 
@@ -33,7 +33,7 @@ namespace FoundryReports.Core
         {
         }
 
-        public MonthlyProductReport(IProduct forProduct, int value)
+        public MonthlyProductReport(IProduct forProduct, decimal value)
         {
             ForProduct = forProduct;
             Value = value;

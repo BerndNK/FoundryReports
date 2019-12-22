@@ -28,7 +28,17 @@ namespace FoundryReports.ViewModel.DataManage
             }
         }
 
-        public int Value
+        public bool IsPredicted
+        {
+            get => MonthlyProductReport.IsPredicted;
+            set
+            {
+                MonthlyProductReport.IsPredicted = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal Value
         {
             get => MonthlyProductReport.Value;
             set

@@ -9,7 +9,7 @@ namespace FoundryReports.Core.Reports.Visualization
 
         DateTime ForMonth { get; set; }
 
-        int Value { get; set; }
+        decimal Value { get; set; }
 
         IProduct ForProduct { get; set; }
     }

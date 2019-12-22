@@ -118,7 +118,7 @@ namespace FoundryReports.Core.Source
             for (var i = 0; i < count; i++)
             {
                 var date = AsDateTime(dates[i]);
-                var usageValue = AsInt(usageValues[i]);
+                var usageValue = AsDecimal(usageValues[i]);
 
                 yield return new MonthlyProductReport {ForMonth = date, Value = usageValue};
             }

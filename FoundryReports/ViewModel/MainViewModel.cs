@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using System.Windows.Input;
 using FoundryReports.Core;
+using FoundryReports.Utils;
 using FoundryReports.ViewModel.DataManage;
 using FoundryReports.ViewModel.Graph;
 
@@ -7,19 +9,47 @@ namespace FoundryReports.ViewModel
 {
     public class MainViewModel : BaseViewModel
     {
-        public GraphMainViewModel Graph { get; } = new GraphMainViewModel();
+        private readonly CoreSetup _setup;
+
+        public GraphMainViewModel Graph { get; }
 
         public DataManageMainViewModel DataManage { get; }
+        
+        public ICommand PersistCommand { get; }
+
+        private bool _isBusy;
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainViewModel()
         {
-            var setup = new CoreSetup();
-            DataManage = new DataManageMainViewModel(setup.DataSource);
+            _setup = new CoreSetup();
+            DataManage = new DataManageMainViewModel(_setup.DataSource);
+            Graph = new GraphMainViewModel(DataManage.CustomerEditor.Children, DataManage.ProductEditor.Children);
+            PersistCommand = new DelegateCommand(Persist);
         }
-        
+
+        private async void Persist()
+        {
+            IsBusy = true;
+            await _setup.DataSource.PersistChanges();
+            IsBusy = false;
+        }
+
         public async Task Load()
         {
+            IsBusy = true;
             await DataManage.Load();
+            await Graph.Load();
+            IsBusy = false;
         }
     }
 }

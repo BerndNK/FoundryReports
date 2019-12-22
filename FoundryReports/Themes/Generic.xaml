@@ -53,6 +53,22 @@
         <viewGraph:GraphMainView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModelGraph:TrendViewModel}">
+        <viewGraph:TrendView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModelGraph:TrendSegmentOfSingleMonthOfOneProductViewModel}">
+        <viewGraph:TrendOfSingleMonthOfOneProductView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModelGraph:TrendSegmentOfSingleMonthViewModel}">
+        <viewGraph:TrendOfSingleMonthView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModelGraph:ProductSelectionViewModel}">
+        <viewGraph:ProductSelectionView />
+    </DataTemplate>
+
     <!--Utils-->
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../View/Utils/DecoratedTextBoxResources.xaml" />

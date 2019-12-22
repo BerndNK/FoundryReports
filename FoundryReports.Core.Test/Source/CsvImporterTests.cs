@@ -238,10 +238,10 @@ namespace FoundryReports.Core.Test.Source
             var customer = await importer.ImportCustomerFromCsv(CustomerTestCsvPath);
 
             // Assert
-            Assert.That(customer.MonthlyProductReports.Where(m => m.ForProduct.Name == "55").Select(m => m.Value), Is.EquivalentTo(new[]
+            Assert.That(customer.MonthlyProductReports.Where(m => m.ForProduct.Name == "61").Select(m => m.Value), Is.EquivalentTo(new[]
             {
-                142,160,50,157,94,47,52,608,257,0,107,0
-            }));
+                28481.19164,5065.067807,13450.15981,8385.872121,21831.02789,9927.427329,517.4126124,1296.574768,2373.612425,5105.65897,9503.804379,3870.762881
+            }.Select(d => (decimal)d)));
         }
     }
 }

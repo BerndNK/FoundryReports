@@ -11,7 +11,7 @@
     <Grid>
         <DockPanel Margin="0,5">
             <Button Content="Import..." Command="{Binding ImportCommand}" DockPanel.Dock="Bottom"
-                    HorizontalAlignment="Right" Margin="0,5,0,0" />
+                    HorizontalAlignment="Right" Margin="0,5,8,0" />
             <Border DockPanel.Dock="Left" Margin="5,0" BorderBrush="Gray" BorderThickness="1">
                 <StackPanel Orientation="Vertical">
                     <ListBox ItemsSource="{Binding Children}" x:Name="ProductSelection" BorderBrush="Transparent"

@@ -31,6 +31,7 @@ namespace FoundryReports.Core.Source
         {
             await LoadMolds();
             await LoadProducts();
+            await LoadCustomer();
         }
 
         private async Task LoadMolds()

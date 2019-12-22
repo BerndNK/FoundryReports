@@ -11,10 +11,7 @@
     <Grid IsEnabled="{Binding IsBusy, Converter={x:Static converter:NegateBool.Instance}}">
         <ScrollViewer HorizontalScrollBarVisibility="Disabled">
             <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Persist changes" Command="{Binding PersistCommand}" Margin="5" />
-                </StackPanel>
-
+                <UniformGrid Columns="2">
                 <GroupBox Margin="5" Header="Molds">
                     <ContentControl Content="{Binding MoldEditor}" />
                 </GroupBox>
@@ -22,6 +19,7 @@
                 <GroupBox Margin="5" Header="Products">
                     <ContentControl Content="{Binding ProductEditor}" />
                 </GroupBox>
+                </UniformGrid>
 
                 <GroupBox Margin="5" Header="Customer">
                     <ContentControl Content="{Binding CustomerEditor}" />
