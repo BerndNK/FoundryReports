@@ -3,30 +3,44 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoundryReports", "FoundryReports\FoundryReports.csproj", "{B421409B-4215-4693-B391-4D0D6DB560B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoundryReports", "FoundryReports\FoundryReports.csproj", "{B421409B-4215-4693-B391-4D0D6DB560B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoundryReports.Core", "FoundryReports.Core\FoundryReports.Core.csproj", "{971F7305-E3B4-4E82-A274-C46C12FBFFEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoundryReports.Core", "FoundryReports.Core\FoundryReports.Core.csproj", "{971F7305-E3B4-4E82-A274-C46C12FBFFEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoundryReports.Core.Test", "FoundryReports.Core.Test\FoundryReports.Core.Test.csproj", "{B450AC85-BCAE-4B56-A0EB-17828AA36598}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoundryReports.Core.Test", "FoundryReports.Core.Test\FoundryReports.Core.Test.csproj", "{B450AC85-BCAE-4B56-A0EB-17828AA36598}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B421409B-4215-4693-B391-4D0D6DB560B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B421409B-4215-4693-B391-4D0D6DB560B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B421409B-4215-4693-B391-4D0D6DB560B2}.Debug|x64.ActiveCfg = Debug|x64
+		{B421409B-4215-4693-B391-4D0D6DB560B2}.Debug|x64.Build.0 = Debug|x64
 		{B421409B-4215-4693-B391-4D0D6DB560B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B421409B-4215-4693-B391-4D0D6DB560B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B421409B-4215-4693-B391-4D0D6DB560B2}.Release|x64.ActiveCfg = Release|x64
+		{B421409B-4215-4693-B391-4D0D6DB560B2}.Release|x64.Build.0 = Release|x64
 		{971F7305-E3B4-4E82-A274-C46C12FBFFEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{971F7305-E3B4-4E82-A274-C46C12FBFFEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{971F7305-E3B4-4E82-A274-C46C12FBFFEA}.Debug|x64.ActiveCfg = Debug|x64
+		{971F7305-E3B4-4E82-A274-C46C12FBFFEA}.Debug|x64.Build.0 = Debug|x64
 		{971F7305-E3B4-4E82-A274-C46C12FBFFEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{971F7305-E3B4-4E82-A274-C46C12FBFFEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{971F7305-E3B4-4E82-A274-C46C12FBFFEA}.Release|x64.ActiveCfg = Release|x64
+		{971F7305-E3B4-4E82-A274-C46C12FBFFEA}.Release|x64.Build.0 = Release|x64
 		{B450AC85-BCAE-4B56-A0EB-17828AA36598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B450AC85-BCAE-4B56-A0EB-17828AA36598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B450AC85-BCAE-4B56-A0EB-17828AA36598}.Debug|x64.ActiveCfg = Debug|x64
+		{B450AC85-BCAE-4B56-A0EB-17828AA36598}.Debug|x64.Build.0 = Debug|x64
 		{B450AC85-BCAE-4B56-A0EB-17828AA36598}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B450AC85-BCAE-4B56-A0EB-17828AA36598}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B450AC85-BCAE-4B56-A0EB-17828AA36598}.Release|x64.ActiveCfg = Release|x64
+		{B450AC85-BCAE-4B56-A0EB-17828AA36598}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
