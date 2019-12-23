@@ -14,11 +14,14 @@
         <Button Content="Persist changes" Command="{Binding PersistCommand}" DockPanel.Dock="Top" Margin="0,5"/>
 
         <TabControl>
-            <TabItem Header="Graph">
+            <TabItem Header="Products" Padding="10,5">
                 <ContentPresenter Content="{Binding Graph}" />
             </TabItem>
 
-            <TabItem Header="Data">
+            <TabItem Header="Casting Cell" Padding="10,5">
+            </TabItem>
+
+            <TabItem Header="Data" Padding="10,5">
                 <ContentPresenter Content="{Binding DataManage}" />
             </TabItem>
         </TabControl>

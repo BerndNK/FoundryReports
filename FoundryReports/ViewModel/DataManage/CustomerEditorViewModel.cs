@@ -1,5 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Input;
 using FoundryReports.Core.Source;
 using FoundryReports.Utils;
@@ -14,6 +17,8 @@ namespace FoundryReports.ViewModel.DataManage
         private readonly ObservableCollection<ProductViewModel> _availableProducts;
 
         public ICommand ImportCommand { get; set; }
+
+        public ICommand ExportCommand { get; set; }
 
         private bool _isBusy;
 
@@ -32,7 +37,34 @@ namespace FoundryReports.ViewModel.DataManage
             _dataSource = dataSource;
             _availableProducts = availableProducts;
             ImportCommand = new DelegateCommand(Import);
+            ExportCommand = new DelegateCommand(Export);
         }
+
+        private void Export()
+        {
+            var dataAsCsv = DataAsCsv();
+            var targetPath = @"C:\Users\Bernd\OneDrive\Desktop\graphData.csv";
+
+            File.WriteAllText(targetPath, dataAsCsv);
+        }
+
+        private string DataAsCsv()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Product;Month;Value");
+            var customer = Children.FirstOrDefault();
+            if (customer == null)
+                return sb.ToString();
+
+            foreach (var productUsage in customer.Children)
+            {
+                sb.AppendLine(
+                    $"{productUsage.SelectedProduct?.Name ?? string.Empty};{((Month) productUsage.ForMonth.Month).ToString().Substring(0,3)} {productUsage.ForMonth.Year};{productUsage.Value.ToString(CultureInfo.InvariantCulture)}");
+            }
+
+            return sb.ToString();
+        }
+
 
         private async void Import()
         {

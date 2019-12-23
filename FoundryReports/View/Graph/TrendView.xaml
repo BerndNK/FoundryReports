@@ -11,48 +11,55 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <converter:BoolToBrush BrushForTrue="DarkGray" BrushForFalse="Black" x:Key="BoolToBrush"/>
+        <converter:BoolToBrush BrushForTrue="DarkGray" BrushForFalse="Black" x:Key="BoolToBrush" />
     </UserControl.Resources>
 
     <DockPanel>
-        <ItemsControl ItemsSource="{Binding ProductSelection}" DockPanel.Dock="Left" />
-        <DockPanel DockPanel.Dock="Right" Width="200">
-            <TextBlock Text="Values" FontSize="14" DockPanel.Dock="Top" HorizontalAlignment="Center"/>
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding UsagesOfSelectedSegment}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type dataManage:MonthlyProductUsageViewModel}">
-                        <StackPanel Width="90">
-                            <utils:DecoratedTextBox Text="{Binding Value}" Header="{Binding SelectedProduct.Name}"
-                                                    GhostText="999" Foreground="{Binding IsPredicted, Converter={StaticResource BoolToBrush}}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
 
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Left" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding ProductSelection}" />
+        </ScrollViewer>
+
+        <DockPanel DockPanel.Dock="Right" Width="200">
+            <TextBlock Text="Values" FontSize="14" DockPanel.Dock="Top" HorizontalAlignment="Center" />
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding UsagesOfSelectedSegment}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type dataManage:MonthlyProductUsageViewModel}">
+                            <StackPanel Width="90">
+                                <utils:DecoratedTextBox Text="{Binding Value}" Header="{Binding SelectedProduct.Name}"
+                                                        GhostText="999"
+                                                        Foreground="{Binding IsPredicted, Converter={StaticResource BoolToBrush}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </ScrollViewer>
         </DockPanel>
+
         <Border BorderThickness="1" BorderBrush="Gray" Margin="5">
             <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
-            <Viewbox VerticalAlignment="Top" MaxHeight="450"  HorizontalAlignment="Left">
-        <ListBox ItemsSource="{Binding MonthlySegments}" SelectedItem="{Binding SelectedSegment}" VerticalAlignment="Top"  BorderBrush="Transparent" ScrollViewer.CanContentScroll="False">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <ContentControl Content="{Binding}" Margin="-5,0" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" IsItemsHost="True" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
-        </Viewbox>
+                <Viewbox VerticalAlignment="Top" MaxHeight="450" HorizontalAlignment="Left">
+                    <ListBox ItemsSource="{Binding MonthlySegments}" SelectedItem="{Binding SelectedSegment}"
+                             VerticalAlignment="Top" BorderBrush="Transparent" ScrollViewer.CanContentScroll="False">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="{Binding}" Margin="-5,0" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" IsItemsHost="True" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </Viewbox>
             </ScrollViewer>
         </Border>
     </DockPanel>
