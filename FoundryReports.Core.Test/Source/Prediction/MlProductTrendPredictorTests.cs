@@ -12,7 +12,6 @@ namespace FoundryReports.Core.Test.Source.Prediction
         [Test]
         public void LoadShouldSucceed()
         {
-
             var predictor = new MlProductTrendPredictor();
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FoundryReports.Core.Reports;
+using FoundryReports.Core.Utils;
 using FoundryReports.ViewModel.DataManage;
 
 namespace FoundryReports.ViewModel.Graph
@@ -70,7 +71,7 @@ namespace FoundryReports.ViewModel.Graph
 
         public MonthlyProductUsageViewModel PreviousMonthsUsage(MonthlyProductUsageViewModel currentMonth)
         {
-            var previousMonth = currentMonth.ForMonth.AddMonths(-1);
+            var previousMonth = currentMonth.ForMonth.PreviousMonth();
             if (!Months.Contains(previousMonth))
                 return currentMonth;
 
@@ -87,7 +88,7 @@ namespace FoundryReports.ViewModel.Graph
 
         public MonthlyProductUsageViewModel NextMonthsUsage(MonthlyProductUsageViewModel currentMonth)
         {
-            var nextMonth = currentMonth.ForMonth.AddMonths(1);
+            var nextMonth = currentMonth.ForMonth.NextMonth();
             if (!Months.Contains(nextMonth))
                 return currentMonth;
 

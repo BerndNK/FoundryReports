@@ -153,7 +153,7 @@ namespace FoundryReports.Core.Source
 
         private DateTime AsDateTime(string dateAsString)
         {
-            if (DateTime.TryParse(dateAsString, out var asDateTime))
+            if (DateTime.TryParse(dateAsString, CultureInfo.InvariantCulture, DateTimeStyles.None, out var asDateTime))
             {
                 return asDateTime;
             }

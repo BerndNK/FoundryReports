@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -192,6 +193,41 @@ namespace FoundryReports.Core.Test.Source
             var importer = new CsvImporter();
 
             // Act
+            var customer = await importer.ImportCustomerFromCsv(CustomerTestCsvPath);
+
+            // Assert
+            Assert.That(customer.MonthlyProductReports.Select(m => m.ForMonth).Distinct(), Is.EquivalentTo(new[]
+            {
+                new DateTime(2019, 1, 1),
+                new DateTime(2019, 2, 1),
+                new DateTime(2019, 3, 1),
+                new DateTime(2019, 4, 1),
+                new DateTime(2019, 5, 1),
+                new DateTime(2019, 6, 1),
+                new DateTime(2019, 7, 1),
+                new DateTime(2019, 8, 1),
+                new DateTime(2019, 9, 1),
+                new DateTime(2019, 10, 1),
+                new DateTime(2019, 11, 1),
+                new DateTime(2019, 12, 1)
+            }));
+        }
+
+        [TestCase("de-de")]
+        [TestCase("en-US")]
+        [TestCase("ar-DZ")]
+        [TestCase("zh-CHS")]
+        [TestCase("ko-KR")]
+        [TestCase("nb-NO")]
+        [TestCase("es-CO")]
+        public async Task ImportingCustomer_ShouldResultInCorrectDatesForDifferentCultures(string cultureString)
+        {
+            // Arrange
+            var importer = new CsvImporter();
+
+            // Act
+            CultureInfo.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureString);
+            CultureInfo.CurrentUICulture = CultureInfo.CreateSpecificCulture(cultureString);
             var customer = await importer.ImportCustomerFromCsv(CustomerTestCsvPath);
 
             // Assert

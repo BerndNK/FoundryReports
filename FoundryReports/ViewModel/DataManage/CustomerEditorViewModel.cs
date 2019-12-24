@@ -88,6 +88,7 @@ namespace FoundryReports.ViewModel.DataManage
 
                     newReport.Value = monthlyProductReport.Value;
                     newReport.ForMonth = monthlyProductReport.ForMonth;
+                    newReport.IsPredicted = false;
 
                     var correspondingProduct =
                         _availableProducts.FirstOrDefault(m => m.Name == monthlyProductReport.ForProduct.Name);
