@@ -6,24 +6,34 @@ namespace FoundryReports.Core.Utils
     {
         public static DateTime PreviousMonth(this DateTime dateTime)
         {
+            return PreviousMonths(dateTime, 1);
+        }
+
+        public static DateTime NextMonth(this DateTime dateTime)
+        {
+            return NextMonths(dateTime, 1);
+        }
+
+        public static DateTime PreviousMonths(this DateTime dateTime, int months)
+        {
             var year = dateTime.Year;
-            var targetMonth = dateTime.Month - 1;
-            if(targetMonth <= 0)
+            var targetMonth = dateTime.Month - months;
+            while (targetMonth <= 0)
             {
-                targetMonth = 12;
+                targetMonth = 12 + targetMonth;
                 year -= 1;
             }
 
             return new DateTime(year, targetMonth, dateTime.Day);
         }
-        
-        public static DateTime NextMonth(this DateTime dateTime)
+
+        public static DateTime NextMonths(this DateTime dateTime, int months)
         {
             var year = dateTime.Year;
-            var targetMonth = dateTime.Month + 1;
-            if(targetMonth > 12)
+            var targetMonth = dateTime.Month + months;
+            while (targetMonth > 12)
             {
-                targetMonth = 1;
+                targetMonth = targetMonth-12;
                 year += 1;
             }
 

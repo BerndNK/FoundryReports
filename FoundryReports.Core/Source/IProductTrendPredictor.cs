@@ -6,6 +6,6 @@ namespace FoundryReports.Core.Source
 {
     public interface IProductTrendPredictor
     {
-        IMonthlyProductReport Predict(DateTime forMonth, IProductTrend forTrend, ICustomerOverview overview);
+        IMonthlyProductReport Predict(DateTime forMonth, IProductTrend forTrend);
     }
 }

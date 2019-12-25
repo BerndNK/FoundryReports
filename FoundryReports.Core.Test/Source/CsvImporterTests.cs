@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace FoundryReports.Core.Test.Source
 {
-    public class Tests
+    public class CsvImporterTests
     {
         private string TestDataPath => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
             "Source\\TestData\\");

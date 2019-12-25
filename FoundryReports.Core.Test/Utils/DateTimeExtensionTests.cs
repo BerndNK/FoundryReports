@@ -47,5 +47,40 @@ namespace FoundryReports.Core.Test.Utils
         {
             return PreviousMonthTestCases().Select(previousMonthTestCase => previousMonthTestCase.Reverse().ToArray());
         }
+
+        
+        [TestCaseSource(nameof(PreviousMonthsTestCases))]
+        public void PreviousMonths_ResultsInPreviousMonth(DateTime startMonth, DateTime expectedResult, int amountOfMonths)
+        {
+            // arrange
+            // act
+            var result = startMonth.PreviousMonths(amountOfMonths);
+
+            // assert
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [TestCaseSource(nameof(NextMonthsTestCases))]
+        public void NextMonths_ResultsInNextMonth(DateTime startMonth, DateTime expectedResult, int amountOfMonths)
+        {
+            // arrange
+            // act
+            var result = startMonth.NextMonths(amountOfMonths);
+
+            // assert
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        public static IEnumerable<object[]> PreviousMonthsTestCases()
+        {
+            yield return new object[]{new DateTime(2019, 1, 1), new DateTime(2018, 12, 1), 1};
+            yield return new object[]{new DateTime(2019, 2, 5), new DateTime(2018, 2, 5), 12};
+            yield return new object[]{new DateTime(2019, 3, 1), new DateTime(2017, 2, 1), 25};
+        }
+
+        public static IEnumerable<object[]> NextMonthsTestCases()
+        {
+            return PreviousMonthsTestCases().Select(t => new object[] {t[1], t[0], t[2]});
+        }
     }
 }
