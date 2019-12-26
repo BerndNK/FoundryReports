@@ -16,12 +16,24 @@ namespace FoundryReports.Core
 
         private IProduct? _productInstance;
 
-        public string ProductName { get; set; } = string.Empty;
+        private string _productName = "[Unknown]";
+
+        public string ProductName
+        {
+            get => _productName;
+            set
+            {
+                _productName = value;
+                _productDummy.Name = _productName;
+            }
+        }
+
+        private ProductDummy _productDummy = new ProductDummy();
 
         [JsonIgnore]
         public IProduct ForProduct
         {
-            get => _productInstance ?? new ProductDummy {Name = ProductName};
+            get => _productInstance ?? _productDummy;
             set
             {
                 _productInstance = value;
@@ -37,6 +49,9 @@ namespace FoundryReports.Core
         {
             ForProduct = forProduct;
             Value = value;
+
         }
+
+        public static IMonthlyProductReport Zero(IProduct forProduct) => new MonthlyProductReport(forProduct, 0);
     }
 }

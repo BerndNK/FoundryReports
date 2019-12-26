@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FoundryReports.Core.Products;
 
@@ -8,8 +9,10 @@ namespace FoundryReports.ViewModel.DataManage
     {
         private readonly ObservableCollection<MoldViewModel> _availableMolds;
 
+        public static readonly EqualityComparer<ProductViewModel> EqualityByReferringToSameProduct = new EqualityByReferringToSameProductEqualityComparer();
+
         public IProduct Product { get; }
-        
+
         public string Name
         {
             get => Product.Name;
@@ -30,7 +33,7 @@ namespace FoundryReports.ViewModel.DataManage
                 Children.Add(moldRequirementViewModel);
             }
         }
-        
+
         protected override MoldRequirementViewModel NewViewModel()
         {
             var newRequirement = Product.AddItem();
@@ -40,6 +43,13 @@ namespace FoundryReports.ViewModel.DataManage
         protected override void RemoveFromModel(MoldRequirementViewModel viewModel)
         {
             Product.Remove(viewModel.MoldRequirement);
+        }
+
+        private class EqualityByReferringToSameProductEqualityComparer : EqualityComparer<ProductViewModel>
+        {
+            public override bool Equals(ProductViewModel x, ProductViewModel y) => ReferenceEquals(x?.Product, y?.Product);
+
+            public override int GetHashCode(ProductViewModel viewModel) => viewModel.Product.GetHashCode();
         }
     }
 }

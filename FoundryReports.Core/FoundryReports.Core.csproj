@@ -17,16 +17,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Source\Prediction\saved_model.pb" />
     <None Remove="Source\Prediction\variables\variables.data-00000-of-00001" />
+    <None Remove="Source\Prediction\variables\variables.data-00000-of-00002" />
+    <None Remove="Source\Prediction\variables\variables.data-00001-of-00002" />
     <None Remove="Source\Prediction\variables\variables.index" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Source\Prediction\saved_model.pb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Source\Prediction\variables\variables.data-00000-of-00001">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Source\Prediction\variables\variables.index">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -35,12 +41,6 @@
     <PackageReference Include="Microsoft.ML.TensorFlow" Version="1.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="SciSharp.TensorFlow.Redist" Version="1.15.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Source\Prediction\saved_model.pb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

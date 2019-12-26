@@ -14,6 +14,7 @@
         <converter:BoolToBrush BrushForTrue="DarkGray" BrushForFalse="Black" x:Key="BoolToBrush" />
     </UserControl.Resources>
 
+
     <DockPanel>
 
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Left" VerticalScrollBarVisibility="Auto">
@@ -27,7 +28,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type dataManage:MonthlyProductUsageViewModel}">
                             <StackPanel Width="90">
-                                <utils:DecoratedTextBox Text="{Binding Value}" Header="{Binding SelectedProduct.Name}"
+                                <utils:DecoratedTextBox Text="{Binding Value, StringFormat='{}{0:0.##}'}" Header="{Binding SelectedProduct.Name}"
                                                         GhostText="999"
                                                         Foreground="{Binding IsPredicted, Converter={StaticResource BoolToBrush}}" />
                             </StackPanel>

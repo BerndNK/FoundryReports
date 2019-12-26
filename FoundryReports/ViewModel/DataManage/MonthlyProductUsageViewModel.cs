@@ -44,6 +44,7 @@ namespace FoundryReports.ViewModel.DataManage
             set
             {
                 MonthlyProductReport.Value = value;
+                IsPredicted = false;
                 OnPropertyChanged();
             }
         }

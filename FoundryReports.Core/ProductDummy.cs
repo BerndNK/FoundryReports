@@ -12,7 +12,7 @@ namespace FoundryReports.Core
         {
         }
 
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = "[Unknown]";
 
         public IEnumerable<IMoldRequirement> MoldRequirements => Enumerable.Empty<IMoldRequirement>();
     }

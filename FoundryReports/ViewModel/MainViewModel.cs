@@ -40,6 +40,7 @@ namespace FoundryReports.ViewModel
         private async void Persist()
         {
             IsBusy = true;
+            Graph.PersistChanges();
             await _setup.DataSource.PersistChanges();
             IsBusy = false;
         }
@@ -48,7 +49,6 @@ namespace FoundryReports.ViewModel
         {
             IsBusy = true;
             await DataManage.Load();
-            await Graph.Load();
             IsBusy = false;
         }
     }

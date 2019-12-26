@@ -43,7 +43,6 @@ namespace FoundryReports.ViewModel.Graph
         public double LineSegmentEndY => Math.Ceiling(DisplayHeight * (1.0 - NextMonthYPosInPercent));
 
         public bool IsSegmentBeforeDotted => CurrentMonth.MonthlyProductReport.IsPredicted ||
-                                             PreviousMonth.MonthlyProductReport.IsPredicted ||
                                              PreviousMonth == CurrentMonth;
 
         public bool IsSegmentAfterDotted => CurrentMonth.MonthlyProductReport.IsPredicted ||

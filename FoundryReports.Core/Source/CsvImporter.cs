@@ -187,7 +187,6 @@ namespace FoundryReports.Core.Source
 
         private async IAsyncEnumerable<string> ReadLinesOfFile(string filePath)
         {
-            await Task.Delay(500);
             if (!File.Exists(filePath))
                 yield break;
 

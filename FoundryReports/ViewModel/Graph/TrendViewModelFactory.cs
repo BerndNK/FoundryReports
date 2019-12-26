@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FoundryReports.Core.Reports;
+using FoundryReports.Core.Reports.Visualization;
+using FoundryReports.Core.Source;
 using FoundryReports.Core.Utils;
 using FoundryReports.ViewModel.DataManage;
 
@@ -10,19 +11,24 @@ namespace FoundryReports.ViewModel.Graph
 {
     internal class TrendViewModelFactory
     {
-        public IEnumerable<TrendSegmentOfSingleMonthViewModel> ProduceSegments(ICustomer forCustomer, DateTime from,
-            DateTime to, ObservableCollection<ProductViewModel> availableProducts)
-        {
-            var relevantUsages = forCustomer.MonthlyProductReports.Where(r => r.ForMonth >= from && r.ForMonth <= to);
-            var monthlyProductUsageViewModels =
-                relevantUsages.Select(u => new MonthlyProductUsageViewModel(u, availableProducts)).ToList();
+        private IDictionary<IMonthlyProductReport, MonthlyProductUsageViewModel> _viewModelUsages =
+            new Dictionary<IMonthlyProductReport, MonthlyProductUsageViewModel>();
 
-            if (!monthlyProductUsageViewModels.Any())
+        public IEnumerable<TrendSegmentOfSingleMonthViewModel> ProduceSegments(CustomerViewModel forCustomer,
+            DateTime from,
+            DateTime to, ObservableCollection<ProductViewModel> availableProducts, IProductTrendPredictor predictor, IEnumerable<MonthlyProductUsageViewModel> manuallyChangedReports)
+        {
+            var relevantUsages = forCustomer.Children.Concat(manuallyChangedReports).Where(r => r.ForMonth >= from && r.ForMonth <= to).ToList();
+            var relevantMonths = AllMonthsFromTo(from, to).ToList();
+
+            _viewModelUsages = relevantUsages.ToDictionary(r => r.MonthlyProductReport, r => r);
+
+            if (!relevantUsages.Any())
                 yield break;
 
-            var index = new MonthlyUsageIndex(monthlyProductUsageViewModels);
+            var index = CreateIndex(relevantUsages, predictor);
 
-            foreach (var month in index.Months)
+            foreach (var month in relevantMonths)
             {
                 var monthTrendSegment = new TrendSegmentOfSingleMonthViewModel(month);
 
@@ -33,66 +39,58 @@ namespace FoundryReports.ViewModel.Graph
                     var nextMonth = index.NextMonthsUsage(thisMonth);
 
                     var singleProductTrendSegment =
-                        new TrendSegmentOfSingleMonthOfOneProductViewModel(previousMonth, thisMonth, nextMonth, index.MinUsage, index.MaxUsage);
+                        new TrendSegmentOfSingleMonthOfOneProductViewModel(
+                            AsViewModel(previousMonth, availableProducts),
+                            AsViewModel(thisMonth, availableProducts),
+                            AsViewModel(nextMonth, availableProducts), index.MinUsage, index.MaxUsage);
+
                     monthTrendSegment.ProductTrends.Add(singleProductTrendSegment);
                 }
 
                 yield return monthTrendSegment;
             }
         }
-    }
 
-    internal class MonthlyUsageIndex
-    {
-        private readonly IDictionary<DateTime, IEnumerable<MonthlyProductUsageViewModel>> _byMonth;
-
-        private readonly IDictionary<ProductViewModel, IEnumerable<MonthlyProductUsageViewModel>> _byProduct;
-
-        public IEnumerable<DateTime> Months => _byMonth.Keys.OrderBy(x => x);
-
-        public IEnumerable<ProductViewModel> Products => _byProduct.Keys;
-
-        public decimal MaxUsage { get; }
-
-        public decimal MinUsage { get; }
-
-        public MonthlyUsageIndex(IEnumerable<MonthlyProductUsageViewModel> monthlyProductUsages)
+        private MonthlyProductUsageViewModel AsViewModel(IMonthlyProductReport report,
+            ObservableCollection<ProductViewModel> availableProducts)
         {
-            var asList = monthlyProductUsages.Where(u => u.SelectedProduct != null).ToList();
+            MonthlyProductUsageViewModel monthlyProductUsageViewModel;
 
-            _byMonth = asList.GroupBy(u => u.ForMonth)
-                .ToDictionary(g => g.Key, g => g as IEnumerable<MonthlyProductUsageViewModel>);
-            _byProduct = asList.GroupBy(u => u.SelectedProduct)
-                .ToDictionary(g => g.Key!, g => g as IEnumerable<MonthlyProductUsageViewModel>);
+            if (_viewModelUsages.ContainsKey(report))
+            {
+                monthlyProductUsageViewModel = _viewModelUsages[report];
+            }
+            else
+            {
+                monthlyProductUsageViewModel = new MonthlyProductUsageViewModel(report, availableProducts);
+                _viewModelUsages.Add(report, monthlyProductUsageViewModel);
+            }
 
-            MaxUsage = asList.Max(u => u.Value);
-            MinUsage = asList.Min(u => u.Value);
+            // if the product does not exist (is a dummy), availableProducts will not include it. Which means that the SelectedProduct property will be null.
+            // However this factory is supposed to ensure non null properties. 
+            // All operations on the view model will be ignored, which is intended, as the user should not be able to write data for a product which doesn't exist
+            if (monthlyProductUsageViewModel.SelectedProduct == null)
+                monthlyProductUsageViewModel.SelectedProduct =
+                    new ProductViewModel(report.ForProduct, new ObservableCollection<MoldViewModel>());
+
+            return monthlyProductUsageViewModel;
         }
 
-        public MonthlyProductUsageViewModel PreviousMonthsUsage(MonthlyProductUsageViewModel currentMonth)
+        private MonthlyUsageIndex CreateIndex(IEnumerable<MonthlyProductUsageViewModel> viewModels,
+            IProductTrendPredictor predictor)
         {
-            var previousMonth = currentMonth.ForMonth.PreviousMonth();
-            if (!Months.Contains(previousMonth))
-                return currentMonth;
-
-            return UsageOf(previousMonth, currentMonth.SelectedProduct!);
+            var index = new MonthlyUsageIndex(viewModels.Select(v => v.MonthlyProductReport), predictor);
+            return index;
         }
 
-        public MonthlyProductUsageViewModel UsageOf(DateTime month, ProductViewModel productName)
+        private IEnumerable<DateTime> AllMonthsFromTo(DateTime fromMonth, DateTime toMonth)
         {
-            var matchingMonth = _byMonth[month];
-            var matchingProduct = _byProduct[productName];
-
-            return matchingMonth.First(u => matchingProduct.Contains(u));
-        }
-
-        public MonthlyProductUsageViewModel NextMonthsUsage(MonthlyProductUsageViewModel currentMonth)
-        {
-            var nextMonth = currentMonth.ForMonth.NextMonth();
-            if (!Months.Contains(nextMonth))
-                return currentMonth;
-
-            return UsageOf(nextMonth, currentMonth.SelectedProduct!);
+            var currentMonth = fromMonth;
+            while (currentMonth <= toMonth)
+            {
+                yield return currentMonth;
+                currentMonth = currentMonth.NextMonth();
+            }
         }
     }
 }

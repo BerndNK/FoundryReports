@@ -1,5 +1,4 @@
 ﻿using System;
-using FoundryReports.Core.Reports;
 using FoundryReports.Core.Reports.Visualization;
 
 namespace FoundryReports.Core.Source
