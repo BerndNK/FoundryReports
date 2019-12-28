@@ -1,9 +1,8 @@
 ﻿using System;
 using FoundryReports.Core.Products;
-using FoundryReports.Core.Reports.Visualization;
 using Newtonsoft.Json;
 
-namespace FoundryReports.Core
+namespace FoundryReports.Core.Reports.Visualization
 {
     [Serializable]
     internal class MonthlyProductReport : IMonthlyProductReport

@@ -140,6 +140,10 @@ namespace FoundryReports.ViewModel.Products
             var minUsage = MonthlyProductSegments.Min(s => s.ProductSegments.Where(x => x.IsVisible).Min(p => p.CurrentMonth.Value));
             var maxUsage = MonthlyProductSegments.Max(s => s.ProductSegments.Where(x => x.IsVisible).Max(p => p.CurrentMonth.Value));
 
+            // avoid division by 0
+            if (maxUsage - minUsage == 0)
+                return;
+
             foreach (var monthSegment in MonthlyProductSegments)
             {
                 foreach (var productSegment in monthSegment.ProductSegments)

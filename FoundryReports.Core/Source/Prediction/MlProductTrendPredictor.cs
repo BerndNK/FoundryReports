@@ -9,7 +9,6 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Transforms;
 using NumSharp.Extensions;
-using Tensorflow;
 
 namespace FoundryReports.Core.Source.Prediction
 {

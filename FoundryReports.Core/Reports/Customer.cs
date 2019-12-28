@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FoundryReports.Core.Reports;
 using FoundryReports.Core.Reports.Visualization;
 using Newtonsoft.Json;
 
-namespace FoundryReports.Core
+namespace FoundryReports.Core.Reports
 {
     [Serializable]
     internal class Customer : ICustomer

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FoundryReports.Core.Products;
 using FoundryReports.Core.Reports.Visualization;
 using FoundryReports.Core.Source.Prediction;
@@ -105,22 +104,5 @@ namespace FoundryReports.Core.Test.Source.Prediction
 
             return trend;
         }
-    }
-
-    internal class ProductTrendDummy : List<IMonthlyProductReport>, IProductTrend
-    {
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
-        public IProduct Product { get; set; }
-        public decimal MinUsage { get; set; }
-        public decimal MaxUsage { get; set; }
-    }
-
-    internal class MonthlyProductReportDummy : IMonthlyProductReport
-    {
-        public bool IsPredicted { get; set; }
-        public DateTime ForMonth { get; set; }
-        public decimal Value { get; set; }
-        public IProduct ForProduct { get; set; }
     }
 }

@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:graph="clr-namespace:FoundryReports.ViewModel.Graph"
-             xmlns:view="clr-namespace:FoundryReports.View"
              xmlns:converter="clr-namespace:FoundryReports.Converter"
              xmlns:products="clr-namespace:FoundryReports.ViewModel.Products"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance Type={x:Type products:EventViewerViewModel}}"
@@ -19,7 +17,8 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ContentControl Content="{Binding SelectedItem, ElementName=EventSelection}" />
+
+            <TextBlock Text="{Binding SelectedItem.Description, ElementName=EventSelection}" FontSize="14" Margin="4"/>
 
         </DockPanel>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="No Events" FontSize="20" FontWeight="Bold" Opacity="0.5"

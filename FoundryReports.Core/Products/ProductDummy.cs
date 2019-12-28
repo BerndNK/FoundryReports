@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FoundryReports.Core.Products;
 
-namespace FoundryReports.Core
+namespace FoundryReports.Core.Products
 {
     internal class ProductDummy : IProduct
     {

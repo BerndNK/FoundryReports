@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Media;
-using FoundryReports.ViewModel.DataManage;
 using FoundryReports.ViewModel.Graph;
 
 namespace FoundryReports.ViewModel.Products

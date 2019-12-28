@@ -30,7 +30,7 @@ namespace FoundryReports.ViewModel.CastingCell
 
                 foreach (var moldRequirement in productViewModel.Product.MoldRequirements)
                 {
-                    castingCellUsage += moldRequirement.UsageAmount * monthlyProductUsageViewModel.Value;
+                    castingCellUsage += moldRequirement.Mold.CastingCellAmount * moldRequirement.UsageAmount * monthlyProductUsageViewModel.Value;
                 }
             }
 

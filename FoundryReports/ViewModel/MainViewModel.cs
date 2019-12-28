@@ -4,7 +4,6 @@ using FoundryReports.Core;
 using FoundryReports.Utils;
 using FoundryReports.ViewModel.CastingCell;
 using FoundryReports.ViewModel.DataManage;
-using FoundryReports.ViewModel.Graph;
 using FoundryReports.ViewModel.Products;
 
 namespace FoundryReports.ViewModel
