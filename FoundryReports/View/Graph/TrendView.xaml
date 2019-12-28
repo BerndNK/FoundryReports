@@ -7,13 +7,14 @@
              xmlns:converter="clr-namespace:FoundryReports.Converter"
              xmlns:dataManage="clr-namespace:FoundryReports.ViewModel.DataManage"
              xmlns:utils="clr-namespace:FoundryReports.View.Utils"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type={x:Type graph:TrendViewModel}}"
+             xmlns:graphView="clr-namespace:FoundryReports.View.Graph"
+             xmlns:products="clr-namespace:FoundryReports.ViewModel.Products"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance Type={x:Type products:ProductUsageTrendViewModel}}"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
         <converter:BoolToBrush BrushForTrue="DarkGray" BrushForFalse="Black" x:Key="BoolToBrush" />
     </UserControl.Resources>
-
 
     <DockPanel>
 
@@ -44,24 +45,6 @@
             </ScrollViewer>
         </DockPanel>
 
-        <Border BorderThickness="1" BorderBrush="Gray" Margin="5">
-            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
-                <Viewbox VerticalAlignment="Top" MaxHeight="450" HorizontalAlignment="Left">
-                    <ListBox ItemsSource="{Binding MonthlySegments}" SelectedItem="{Binding SelectedSegment}"
-                             VerticalAlignment="Top" BorderBrush="Transparent" ScrollViewer.CanContentScroll="False">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <ContentControl Content="{Binding}" Margin="-5,0" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" IsItemsHost="True" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </Viewbox>
-            </ScrollViewer>
-        </Border>
+        <graphView:GraphView />
     </DockPanel>
 </UserControl>

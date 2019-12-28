@@ -10,33 +10,15 @@ using FoundryReports.Core.Source.Prediction;
 using FoundryReports.Core.Utils;
 using FoundryReports.ViewModel.DataManage;
 
-namespace FoundryReports.ViewModel.Graph
+namespace FoundryReports.ViewModel.Products
 {
-    public class TrendViewModel : BaseViewModel
+    public class ProductUsageTrendViewModel : BaseProductTrendViewModel<TrendSegmentOfSingleMonthViewModel>
     {
         public event EventHandler<MonthlyReportManuallyUpdatedEventArgs>? MonthlyReportManuallyUpdated;
 
-        public ObservableCollection<TrendSegmentOfSingleMonthViewModel> MonthlySegments { get; } =
-            new ObservableCollection<TrendSegmentOfSingleMonthViewModel>();
-
-        public ObservableCollection<ProductSelectionViewModel> ProductSelection { get; } =
-            new ObservableCollection<ProductSelectionViewModel>();
-
         public ObservableCollection<MonthlyProductUsageViewModel> UsagesOfSelectedSegment { get; } =
             new ObservableCollection<MonthlyProductUsageViewModel>();
-
-        private TrendSegmentOfSingleMonthViewModel? _selectedSegment;
-
-        public TrendSegmentOfSingleMonthViewModel? SelectedSegment
-        {
-            get => _selectedSegment;
-            set
-            {
-                _selectedSegment = value;
-                UpdateUsageViewModelsOfSelectedSegment();
-                OnPropertyChanged();
-            }
-        }
+        
 
         private void UpdateUsageViewModelsOfSelectedSegment()
         {
@@ -46,25 +28,16 @@ namespace FoundryReports.ViewModel.Graph
             }
 
             UsagesOfSelectedSegment.Clear();
-            if (SelectedSegment == null)
+            if (SelectedProductSegment == null)
                 return;
 
-            foreach (var usageOfProductInSelectedMonth in SelectedSegment.ProductTrends.Select(t => t.CurrentMonth)
+            foreach (var usageOfProductInSelectedMonth in SelectedProductSegment.ProductSegments
+                .Select(t => t.CurrentMonth)
                 .Where(IsVisible))
             {
                 usageOfProductInSelectedMonth.PropertyChanged += UsageOfProductInSelectedMonthOnPropertyChanged;
                 UsagesOfSelectedSegment.Add(usageOfProductInSelectedMonth);
             }
-        }
-
-        private bool IsVisible(MonthlyProductUsageViewModel monthlyProductUsageViewModel)
-        {
-            var correspondingSelection =
-                ProductSelection.FirstOrDefault(s => s.Product == monthlyProductUsageViewModel.SelectedProduct);
-            if (correspondingSelection == null)
-                return true;
-
-            return correspondingSelection.IsSelected;
         }
 
         /// <summary>
@@ -87,7 +60,8 @@ namespace FoundryReports.ViewModel.Graph
             if (product == null || _predictor == null)
                 return;
 
-            var allSegmentsOfProduct = MonthlySegments.Select(s => s.ProductTrends.First(t => t.ForProduct == product))
+            var allSegmentsOfProduct = MonthlyProductSegments
+                .Select(s => s.ProductSegments.First(t => t.ForProduct == product))
                 .ToList();
             foreach (var segment in allSegmentsOfProduct.Where(s => s.CurrentMonth.IsPredicted))
             {
@@ -100,7 +74,7 @@ namespace FoundryReports.ViewModel.Graph
             }
         }
 
-        private readonly TrendViewModelFactory _trendViewModelFactory = new TrendViewModelFactory();
+        private readonly ProductUsageTrendViewModelFactory _trendViewModelFactory = new ProductUsageTrendViewModelFactory();
 
         private IProductTrendPredictor? _predictor;
 
@@ -120,14 +94,14 @@ namespace FoundryReports.ViewModel.Graph
                 return producedSegments;
             });
 
-            MonthlySegments.Clear();
+            MonthlyProductSegments.Clear();
             ProductSelection.Clear();
             foreach (var segment in segments)
             {
-                MonthlySegments.Add(segment);
+                MonthlyProductSegments.Add(segment);
             }
 
-            var allProducts = MonthlySegments.SelectMany(m => m.Products)
+            var allProducts = MonthlyProductSegments.SelectMany(m => m.Products)
                 .Distinct(ProductViewModel.EqualityByReferringToSameProduct);
             foreach (var productViewModel in allProducts)
             {
@@ -137,26 +111,9 @@ namespace FoundryReports.ViewModel.Graph
             }
         }
 
-        private void ProductSelectionOnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != nameof(ProductSelectionViewModel.IsSelected))
-                return;
-
-            if (sender is ProductSelectionViewModel asProductSelectionViewModel)
-            {
-                var productViewModel = asProductSelectionViewModel.Product;
-                foreach (var monthSegment in MonthlySegments)
-                {
-                    monthSegment.SetVisibility(productViewModel, asProductSelectionViewModel.IsSelected);
-                }
-
-                UpdateUsageViewModelsOfSelectedSegment();
-            }
-        }
-
         public IEnumerable<IMonthlyProductReport> AllDisplayedReports()
         {
-            var allSegments = MonthlySegments.SelectMany(x => x.ProductTrends);
+            var allSegments = MonthlyProductSegments.SelectMany(x => x.ProductSegments);
             var allReports = allSegments.Select(r => r.CurrentMonth.MonthlyProductReport);
 
             return allReports;
@@ -165,11 +122,31 @@ namespace FoundryReports.ViewModel.Graph
         public void UpdateEventDisplay(IEnumerable<IProductEvent> productEvents)
         {
             var events = productEvents.ToList();
-            var allProductSegments = MonthlySegments.SelectMany(x => x.ProductTrends);
+            var allProductSegments = MonthlyProductSegments.SelectMany(x => x.ProductSegments);
             foreach (var segment in allProductSegments)
             {
                 var anyEvents = events.Any(e => e.ForReport == segment.CurrentMonth.MonthlyProductReport);
                 segment.HasEvent = anyEvents;
+            }
+        }
+
+        protected override void UpdateSelectedSegmentRelevantProperties() => UpdateUsageViewModelsOfSelectedSegment();
+
+        protected override void UpdatesAfterVisibilityChanged()
+        {
+            if (!MonthlyProductSegments.Any(s => s.ProductSegments.Any(x => x.IsVisible)))
+                return;
+
+            var minUsage = MonthlyProductSegments.Min(s => s.ProductSegments.Where(x => x.IsVisible).Min(p => p.CurrentMonth.Value));
+            var maxUsage = MonthlyProductSegments.Max(s => s.ProductSegments.Where(x => x.IsVisible).Max(p => p.CurrentMonth.Value));
+
+            foreach (var monthSegment in MonthlyProductSegments)
+            {
+                foreach (var productSegment in monthSegment.ProductSegments)
+                {
+                    productSegment.MinUsage = minUsage;
+                    productSegment.MaxUsage = maxUsage;
+                }
             }
         }
     }

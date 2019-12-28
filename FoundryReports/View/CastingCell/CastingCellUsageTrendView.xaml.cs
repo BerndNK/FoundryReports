@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FoundryReports.View.Graph
+namespace FoundryReports.View.CastingCell
 {
     /// <summary>
-    /// Interaction logic for ProductSelectionView.xaml
+    /// Interaction logic for CastingCellUsageTrendView.xaml
     /// </summary>
-    public partial class ProductSelectionView : UserControl
+    public partial class CastingCellUsageTrendView : UserControl
     {
-        public ProductSelectionView()
+        public CastingCellUsageTrendView()
         {
             InitializeComponent();
         }

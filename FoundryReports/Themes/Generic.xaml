@@ -2,10 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:viewModel="clr-namespace:FoundryReports.ViewModel"
                     xmlns:viewModelDataManage="clr-namespace:FoundryReports.ViewModel.DataManage"
+                    xmlns:viewModelProducts="clr-namespace:FoundryReports.ViewModel.Products"
                     xmlns:viewModelGraph="clr-namespace:FoundryReports.ViewModel.Graph"
+                    xmlns:viewModelCastingCell="clr-namespace:FoundryReports.ViewModel.CastingCell"
                     xmlns:view="clr-namespace:FoundryReports.View"
                     xmlns:viewDataManage="clr-namespace:FoundryReports.View.DataManage"
-                    xmlns:viewGraph="clr-namespace:FoundryReports.View.Graph">
+                    xmlns:viewProducts="clr-namespace:FoundryReports.View.Products"
+                    xmlns:viewGraph="clr-namespace:FoundryReports.View.Graph"
+                    xmlns:viewCastingCell="clr-namespace:FoundryReports.View.CastingCell">
 
     <DataTemplate DataType="{x:Type viewModel:MainViewModel}">
         <view:MainView />
@@ -48,35 +52,47 @@
         <viewDataManage:MoldRequirementView />
     </DataTemplate>
 
-    <!--Graph-->
-    <DataTemplate DataType="{x:Type viewModelGraph:GraphMainViewModel}">
-        <viewGraph:GraphMainView />
+    <!--Products-->
+    <DataTemplate DataType="{x:Type viewModelProducts:ProductOverviewViewModel}">
+        <viewProducts:ProductOverviewView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModelGraph:TrendViewModel}">
+    <DataTemplate DataType="{x:Type viewModelProducts:ProductUsageTrendViewModel}">
         <viewGraph:TrendView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModelGraph:TrendSegmentOfSingleMonthViewModel}">
-        <viewGraph:TrendOfSingleMonthView />
+    <DataTemplate DataType="{x:Type viewModelProducts:TrendSegmentOfSingleMonthViewModel}">
+        <viewProducts:TrendOfSingleMonthView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModelGraph:ProductSelectionViewModel}">
-        <viewGraph:ProductSelectionView />
+    <DataTemplate DataType="{x:Type viewModelProducts:ProductSelectionViewModel}">
+        <viewProducts:ProductSelectionView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModelGraph:EventViewerViewModel}">
-        <viewGraph:EventViewerView />
+    <DataTemplate DataType="{x:Type viewModelProducts:ProductEventViewModel}">
+        <viewProducts:ProductEventView />
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type viewModelProducts:EventViewerViewModel}">
+        <viewProducts:EventViewerView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModelGraph:ProductEventViewModel}">
-        <viewGraph:ProductEventView />
+    <!--Casting Cell-->
+
+    <DataTemplate DataType="{x:Type viewModelCastingCell:CastingCellOverviewViewModel}">
+        <viewCastingCell:CastingCellOverviewView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModelCastingCell:CastingCellUsageTrendViewModel}">
+        <viewCastingCell:CastingCellUsageTrendView/>
+    </DataTemplate>
+   
+    <DataTemplate DataType="{x:Type viewModelCastingCell:CastingCellUsageTrendSegmentViewModel}">
+        <viewProducts:TrendOfSingleMonthView />
     </DataTemplate>
 
     <!--Utils-->
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../View/Utils/DecoratedTextBoxResources.xaml" />
-        <ResourceDictionary Source="../View/Graph/TrendOfSingleMonthOfOneProductResources.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

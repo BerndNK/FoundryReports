@@ -1,10 +1,9 @@
 ﻿using System.Windows.Input;
 using System.Windows.Media;
 using FoundryReports.Utils;
-using FoundryReports.View.DataManage;
 using FoundryReports.ViewModel.DataManage;
 
-namespace FoundryReports.ViewModel.Graph
+namespace FoundryReports.ViewModel.Products
 {
     public class ProductSelectionViewModel : BaseViewModel
     {

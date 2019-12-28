@@ -1,12 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:FoundryReports.View.Utils"
                     xmlns:converter="clr-namespace:FoundryReports.Converter"
-                    xmlns:viewModelGraph="clr-namespace:FoundryReports.ViewModel.Graph"
-                    xmlns:graph="clr-namespace:FoundryReports.View.Graph">
+                    xmlns:viewModelGraph="clr-namespace:FoundryReports.ViewModel.Graph">
 
 
-    <DataTemplate DataType="{x:Type viewModelGraph:TrendSegmentOfSingleMonthOfOneProductViewModel}">
+    <DataTemplate DataType="{x:Type viewModelGraph:ITrendGraphSegment}" x:Key="TrendGraphSegment">
         <Canvas Width="50" Height="200"
                 Visibility="{Binding IsVisible, Converter={x:Static converter:BoolToVisibility.Normal}}">
             <Line X1="{Binding LineSegmentStartX}" Y1="{Binding LineSegmentStartY}"
@@ -31,7 +29,7 @@
                      Canvas.Left="{Binding LineSegmentCenterX}" Margin="-5,-5,0,0" Fill="Transparent" Stroke="Black"
                      StrokeThickness="1" x:Name="HighlightEllipse" Visibility="Collapsed" />
 
-            <TextBlock Background="White" Text="{Binding CurrentMonth.Value, StringFormat='{}{0:0.##}'}"
+            <TextBlock Background="White" Text="{Binding DisplayValue}"
                        Canvas.Top="{Binding LineSegmentCenterY}" Canvas.Left="{Binding LineSegmentCenterX}"
                        Margin="-15,-15,0,0" x:Name="HoverText" Visibility="Collapsed" HorizontalAlignment="Center" />
         </Canvas>

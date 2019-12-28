@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="View\Graph\ProductEventView.xaml">
+    <Page Update="View\Products\ProductEventView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

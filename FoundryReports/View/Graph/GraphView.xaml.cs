@@ -1,8 +1,8 @@
 ﻿namespace FoundryReports.View.Graph
 {
-    public partial class ProductEventView
+    public partial class GraphView
     {
-        public ProductEventView()
+        public GraphView()
         {
             InitializeComponent();
         }

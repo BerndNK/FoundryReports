@@ -1,7 +1,7 @@
 ﻿using System;
 using FoundryReports.ViewModel.DataManage;
 
-namespace FoundryReports.ViewModel.Graph
+namespace FoundryReports.ViewModel.Products
 {
     public class MonthlyReportManuallyUpdatedEventArgs : EventArgs
     {

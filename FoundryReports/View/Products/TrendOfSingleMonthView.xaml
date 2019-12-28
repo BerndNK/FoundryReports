@@ -1,16 +1,21 @@
-﻿<UserControl x:Class="FoundryReports.View.Graph.TrendOfSingleMonthView"
+﻿<UserControl x:Class="FoundryReports.View.Products.TrendOfSingleMonthView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:graph="clr-namespace:FoundryReports.ViewModel.Graph"
              xmlns:converter="clr-namespace:FoundryReports.Converter"
+             xmlns:products="clr-namespace:FoundryReports.ViewModel.Products"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type={x:Type graph:TrendSegmentOfSingleMonthViewModel}}"
+             d:DataContext="{d:DesignInstance Type={x:Type products:TrendSegmentOfSingleMonthViewModel}}"
              d:DesignHeight="450" d:DesignWidth="800" Width="50">
     <UserControl.Resources>
-        <converter:BoolToDouble x:Key="BoolToDouble" ValueForFalse="1" ValueForTrue="3" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Graph/TrendSegmentResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converter:BoolToDouble x:Key="BoolToDouble" ValueForFalse="1" ValueForTrue="3" />
         <converter:BoolToFontWeight x:Key="BoolToFontWeight" />
+        </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
         <TextBlock Text="{Binding MonthDisplay}" DockPanel.Dock="Bottom" HorizontalAlignment="Center"
@@ -18,7 +23,7 @@
                    FontWeight="{Binding IsThisMonth, Converter={StaticResource BoolToFontWeight}}" />
         <Grid>
 
-            <ItemsControl ItemsSource="{Binding ProductTrends}" Height="200">
+            <ItemsControl ItemsSource="{Binding TrendSegments}" Height="200" ItemTemplate="{StaticResource TrendGraphSegment}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid IsItemsHost="True" />

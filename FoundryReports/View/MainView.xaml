@@ -15,10 +15,11 @@
 
         <TabControl>
             <TabItem Header="Products" Padding="10,5">
-                <ContentPresenter Content="{Binding Graph}" />
+                <ContentPresenter Content="{Binding ProductOverview}" />
             </TabItem>
 
             <TabItem Header="Casting Cell" Padding="10,5">
+                <ContentPresenter Content="{Binding CastingCellOverview}" />
             </TabItem>
 
             <TabItem Header="Data" Padding="10,5">

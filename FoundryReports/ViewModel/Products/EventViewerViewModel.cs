@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using FoundryReports.Core.Source.Prediction;
 
-namespace FoundryReports.ViewModel.Graph
+namespace FoundryReports.ViewModel.Products
 {
     public class EventViewerViewModel : BaseViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using FoundryReports.Core.Source.Prediction;
 
-namespace FoundryReports.ViewModel.Graph
+namespace FoundryReports.ViewModel.Products
 {
     public class ProductEventViewModel : BaseViewModel
     {

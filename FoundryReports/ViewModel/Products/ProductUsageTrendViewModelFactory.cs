@@ -7,9 +7,9 @@ using FoundryReports.Core.Source;
 using FoundryReports.Core.Utils;
 using FoundryReports.ViewModel.DataManage;
 
-namespace FoundryReports.ViewModel.Graph
+namespace FoundryReports.ViewModel.Products
 {
-    internal class TrendViewModelFactory
+    internal class ProductUsageTrendViewModelFactory
     {
         private IDictionary<IMonthlyProductReport, MonthlyProductUsageViewModel> _viewModelUsages =
             new Dictionary<IMonthlyProductReport, MonthlyProductUsageViewModel>();
@@ -44,7 +44,7 @@ namespace FoundryReports.ViewModel.Graph
                             AsViewModel(thisMonth, availableProducts),
                             AsViewModel(nextMonth, availableProducts), index.MinUsage, index.MaxUsage);
 
-                    monthTrendSegment.ProductTrends.Add(singleProductTrendSegment);
+                    monthTrendSegment.ProductSegments.Add(singleProductTrendSegment);
                 }
 
                 yield return monthTrendSegment;
