@@ -73,6 +73,18 @@ namespace FoundryReports.ViewModel.Graph
             }
         }
 
+        private bool _hasEvent;
+
+        public bool HasEvent
+        {
+            get => _hasEvent;
+            set
+            {
+                _hasEvent = value;
+                OnPropertyChanged();
+            }
+        }
+
         private double MiddleValueBetween(MonthlyProductUsageViewModel monthA, MonthlyProductUsageViewModel monthB)
         {
             var aInPercent = UsageValueInPercent(monthA.Value);

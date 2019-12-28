@@ -30,4 +30,10 @@
     <ProjectReference Include="..\FoundryReports.Core\FoundryReports.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="View\Graph\ProductEventView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

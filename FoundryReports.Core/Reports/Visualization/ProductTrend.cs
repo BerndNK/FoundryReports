@@ -5,7 +5,7 @@ using FoundryReports.Core.Products;
 
 namespace FoundryReports.Core.Reports.Visualization
 {
-    internal class ProductTrend : List<IMonthlyProductReport>, IProductTrend
+    public class ProductTrend : List<IMonthlyProductReport>, IProductTrend
     {
         public DateTime Start => this.Any() ? this.Min(r => r.ForMonth) : DateTime.MaxValue;
 

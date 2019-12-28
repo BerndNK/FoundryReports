@@ -1,0 +1,48 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:FoundryReports.View.Utils"
+                    xmlns:converter="clr-namespace:FoundryReports.Converter"
+                    xmlns:viewModelGraph="clr-namespace:FoundryReports.ViewModel.Graph"
+                    xmlns:graph="clr-namespace:FoundryReports.View.Graph">
+
+
+    <DataTemplate DataType="{x:Type viewModelGraph:TrendSegmentOfSingleMonthOfOneProductViewModel}">
+        <Canvas Width="50" Height="200"
+                Visibility="{Binding IsVisible, Converter={x:Static converter:BoolToVisibility.Normal}}">
+            <Line X1="{Binding LineSegmentStartX}" Y1="{Binding LineSegmentStartY}"
+                  StrokeDashArray="{Binding IsSegmentBeforeDotted, Converter={x:Static converter:BoolToStrokeDashArray.Instance}}"
+                  x:Name="LeftSegment"
+                  X2="{Binding LineSegmentCenterX}" Y2="{Binding LineSegmentCenterY}"
+                  Stroke="{Binding StrokeColor, Converter={x:Static converter:ColorToBrush.Instance}}"
+                  StrokeThickness="2" StrokeEndLineCap="Square" StrokeStartLineCap="Square" />
+
+            <Line X1="{Binding LineSegmentCenterX}" Y1="{Binding LineSegmentCenterY}"
+                  StrokeDashArray="{Binding IsSegmentAfterDotted, Converter={x:Static converter:BoolToStrokeDashArray.Instance}}"
+                  x:Name="RightSegment"
+                  X2="{Binding LineSegmentEndX}" Y2="{Binding LineSegmentEndY}"
+                  Stroke="{Binding StrokeColor, Converter={x:Static converter:ColorToBrush.Instance}}"
+                  StrokeThickness="2" StrokeEndLineCap="Square" StrokeStartLineCap="Square" />
+
+            <Ellipse Width="10" Height="10" Canvas.Top="{Binding LineSegmentCenterY}"
+                     Canvas.Left="{Binding LineSegmentCenterX}" Margin="-5,-5,0,0" Visibility="{Binding HasEvent, Converter={x:Static converter:BoolToVisibility.Normal}}"
+                     Fill="{Binding StrokeColor, Converter={x:Static converter:ColorToBrush.Instance}}" Stroke="White" />
+
+            <Ellipse Width="10" Height="10" Canvas.Top="{Binding LineSegmentCenterY}"
+                     Canvas.Left="{Binding LineSegmentCenterX}" Margin="-5,-5,0,0" Fill="Transparent" Stroke="Black"
+                     StrokeThickness="1" x:Name="HighlightEllipse" Visibility="Collapsed" />
+
+            <TextBlock Background="White" Text="{Binding CurrentMonth.Value, StringFormat='{}{0:0.##}'}"
+                       Canvas.Top="{Binding LineSegmentCenterY}" Canvas.Left="{Binding LineSegmentCenterX}"
+                       Margin="-15,-15,0,0" x:Name="HoverText" Visibility="Collapsed" HorizontalAlignment="Center" />
+        </Canvas>
+        <DataTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="HoverText" Property="Visibility" Value="Visible" />
+                <Setter TargetName="HighlightEllipse" Property="Visibility" Value="Visible" />
+                <Setter TargetName="LeftSegment" Property="StrokeThickness" Value="3" />
+                <Setter TargetName="RightSegment" Property="StrokeThickness" Value="3" />
+            </Trigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>

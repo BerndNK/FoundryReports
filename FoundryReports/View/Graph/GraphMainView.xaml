@@ -10,26 +10,43 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <DockPanel>
-            <DockPanel DockPanel.Dock="Top">
-                <Button DockPanel.Dock="Right" Content="Predict trends" Command="{Binding RefreshTrendCommand}" Padding="5" Margin="5"/>
-                <ListBox ItemsSource="{Binding Customer}" SelectedItem="{Binding SelectedCustomer}">
+            <ListBox ItemsSource="{Binding Customer}" SelectedItem="{Binding SelectedCustomer}" DockPanel.Dock="Top"
+                     Margin="5,0" BorderBrush="Transparent">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" IsItemsHost="True"/>
+                        <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" Margin="5" BorderBrush="Gray" Padding="10">
-                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       TextAlignment="Center" />
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            </DockPanel>
-            <ContentControl Content="{Binding TrendViewModel}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
 
+            <ContentControl Content="{Binding TrendViewModel}" Grid.Row="0" Margin="0,4"/>
+
+            <GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" ResizeBehavior="PreviousAndCurrent"/>
+            <DockPanel  Grid.Row="1" Margin="6">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <TextBlock Text="{Binding TrendViewModel.SelectedSegment.Month}" FontSize="18" FontWeight="Bold"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding TrendViewModel.SelectedSegment.Year}" FontSize="20" Margin="8,0"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <ContentControl Content="{Binding EventViewerViewModel}" DockPanel.Dock="Bottom" />
+            </DockPanel>
+            </Grid>
         </DockPanel>
 
         <view:BusyIndicator Visibility="{Binding IsBusy, Converter={x:Static converter:BoolToVisibility.Normal}}" />

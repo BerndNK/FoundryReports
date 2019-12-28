@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Windows.Input;
-using FoundryReports.Core.Reports.Visualization;
-using FoundryReports.Utils;
+using FoundryReports.Core.Source.Prediction;
 using FoundryReports.ViewModel.DataManage;
 
 namespace FoundryReports.ViewModel.Graph
@@ -11,13 +10,12 @@ namespace FoundryReports.ViewModel.Graph
     public class GraphMainViewModel : BaseViewModel
     {
         private readonly ObservableCollection<ProductViewModel> _products;
+        private readonly IEventPredictor _eventPredictor;
 
         public ObservableCollection<CustomerViewModel> Customer { get; }
 
         private readonly IDictionary<CustomerViewModel, HashSet<MonthlyProductUsageViewModel>> _changedProductReports =
             new Dictionary<CustomerViewModel, HashSet<MonthlyProductUsageViewModel>>();
-
-        public ICommand RefreshTrendCommand { get; }
 
         private CustomerViewModel? _selectedCustomer;
 
@@ -45,13 +43,22 @@ namespace FoundryReports.ViewModel.Graph
         }
 
         public GraphMainViewModel(ObservableCollection<CustomerViewModel> customer,
-            ObservableCollection<ProductViewModel> products)
+            ObservableCollection<ProductViewModel> products, IEventPredictor eventPredictor)
         {
             Customer = customer;
             _products = products;
+            _eventPredictor = eventPredictor;
 
             TrendViewModel.MonthlyReportManuallyUpdated += TrendViewModelOnMonthlyReportManuallyUpdated;
-            RefreshTrendCommand = new DelegateCommand(LoadTrend);
+            TrendViewModel.PropertyChanged += TrendViewModelOnPropertyChanged;
+        }
+
+        private void TrendViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(TrendViewModel.SelectedSegment))
+                return;
+
+            EventViewerViewModel.ShowEvents(EventsForSelectedSegment());
         }
 
         private void TrendViewModelOnMonthlyReportManuallyUpdated(object? sender,
@@ -67,7 +74,11 @@ namespace FoundryReports.ViewModel.Graph
             }
 
             hashSet.Add(e.MonthlyProductReport);
+            RefreshEvents();
         }
+
+
+        public EventViewerViewModel EventViewerViewModel { get; } = new EventViewerViewModel();
 
         public TrendViewModel TrendViewModel { get; } = new TrendViewModel();
 
@@ -83,7 +94,31 @@ namespace FoundryReports.ViewModel.Graph
 
             await TrendViewModel.LoadSegments(SelectedCustomer!, _products, previouslyChangedReportsForThisCustomer);
 
+            RefreshEvents();
+
             IsBusy = false;
+        }
+
+        private readonly List<IProductEvent> _productEvents = new List<IProductEvent>();
+
+        private void RefreshEvents()
+        {
+            var reports = TrendViewModel.AllDisplayedReports();
+            var events = _eventPredictor.PredictEvents(reports).ToList();
+            TrendViewModel.UpdateEventDisplay(events);
+            _productEvents.Clear();
+            _productEvents.AddRange(events);
+            EventViewerViewModel.ShowEvents(EventsForSelectedSegment());
+        }
+
+        private IEnumerable<IProductEvent> EventsForSelectedSegment()
+        {
+            var selectedSegment = TrendViewModel.SelectedSegment;
+            if (selectedSegment == null)
+                return Enumerable.Empty<IProductEvent>();
+
+            var reportsInCurrentSegment = selectedSegment.ProductTrends.Select(t => t.CurrentMonth.MonthlyProductReport).ToList();
+            return _productEvents.Where(e => reportsInCurrentSegment.Contains(e.ForReport));
         }
 
         public void PersistChanges()

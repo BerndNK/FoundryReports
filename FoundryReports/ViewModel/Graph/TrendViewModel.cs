@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using FoundryReports.Core.Reports.Visualization;
 using FoundryReports.Core.Source;
 using FoundryReports.Core.Source.Prediction;
+using FoundryReports.Core.Utils;
 using FoundryReports.ViewModel.DataManage;
 
 namespace FoundryReports.ViewModel.Graph
@@ -73,35 +75,48 @@ namespace FoundryReports.ViewModel.Graph
             if (!(sender is MonthlyProductUsageViewModel monthlyProductUsageViewModel))
                 return;
 
+            UpdateProductTrend(monthlyProductUsageViewModel);
+
             MonthlyReportManuallyUpdated?.Invoke(this,
                 new MonthlyReportManuallyUpdatedEventArgs(monthlyProductUsageViewModel));
         }
 
         private void UpdateProductTrend(MonthlyProductUsageViewModel monthlyProductUsageViewModel)
         {
-            var product = monthlyProductUsageViewModel.SelectedProduct?.Product;
-            if (product == null)
+            var product = monthlyProductUsageViewModel.SelectedProduct;
+            if (product == null || _predictor == null)
                 return;
 
-
-            throw new NotImplementedException();
+            var allSegmentsOfProduct = MonthlySegments.Select(s => s.ProductTrends.First(t => t.ForProduct == product))
+                .ToList();
+            foreach (var segment in allSegmentsOfProduct.Where(s => s.CurrentMonth.IsPredicted))
+            {
+                var asProductTrend = new ProductTrend(product.Product,
+                    allSegmentsOfProduct.Where(s => s.CurrentMonth.ForMonth < segment.CurrentMonth.ForMonth)
+                        .Select(s => s.CurrentMonth.MonthlyProductReport));
+                var newPrediction = _predictor.Predict(segment.CurrentMonth.ForMonth, asProductTrend);
+                segment.CurrentMonth.Value = newPrediction.Value;
+                segment.CurrentMonth.IsPredicted = true;
+            }
         }
 
         private readonly TrendViewModelFactory _trendViewModelFactory = new TrendViewModelFactory();
 
         private IProductTrendPredictor? _predictor;
 
-        public async Task LoadSegments(CustomerViewModel customer, ObservableCollection<ProductViewModel> products, IEnumerable<MonthlyProductUsageViewModel> manuallyChangedReports)
+        public async Task LoadSegments(CustomerViewModel customer, ObservableCollection<ProductViewModel> products,
+            IEnumerable<MonthlyProductUsageViewModel> manuallyChangedReports)
         {
             var segments = await Task.Run(() =>
             {
                 var fromMonth = new DateTime(2019, 1, 1);
-                var toMonth = new DateTime(2021, 1, 1);
+                var toMonth = fromMonth.NextMonths(16);
                 if (_predictor == null)
                     _predictor = new MlProductTrendPredictor();
 
                 var producedSegments = _trendViewModelFactory
-                    .ProduceSegments(customer, fromMonth, toMonth, products, _predictor, manuallyChangedReports).ToList();
+                    .ProduceSegments(customer, fromMonth, toMonth, products, _predictor, manuallyChangedReports)
+                    .ToList();
                 return producedSegments;
             });
 
@@ -136,6 +151,25 @@ namespace FoundryReports.ViewModel.Graph
                 }
 
                 UpdateUsageViewModelsOfSelectedSegment();
+            }
+        }
+
+        public IEnumerable<IMonthlyProductReport> AllDisplayedReports()
+        {
+            var allSegments = MonthlySegments.SelectMany(x => x.ProductTrends);
+            var allReports = allSegments.Select(r => r.CurrentMonth.MonthlyProductReport);
+
+            return allReports;
+        }
+
+        public void UpdateEventDisplay(IEnumerable<IProductEvent> productEvents)
+        {
+            var events = productEvents.ToList();
+            var allProductSegments = MonthlySegments.SelectMany(x => x.ProductTrends);
+            foreach (var segment in allProductSegments)
+            {
+                var anyEvents = events.Any(e => e.ForReport == segment.CurrentMonth.MonthlyProductReport);
+                segment.HasEvent = anyEvents;
             }
         }
     }

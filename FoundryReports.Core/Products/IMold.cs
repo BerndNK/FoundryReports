@@ -2,9 +2,9 @@
 {
     public interface IMold
     {
-        int MaxUsages { get; set; }
+        decimal MaxUsages { get; set; }
 
-        int CurrentUsages { get; set; }
+        decimal CurrentUsages { get; set; }
         
         public decimal CastingCellAmount { get; set; }
 

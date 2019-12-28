@@ -27,7 +27,7 @@
             </ItemsControl>
 
             <Rectangle Width="{Binding IsThisMonth, Converter={StaticResource BoolToDouble}}"
-                       VerticalAlignment="Stretch" HorizontalAlignment="Center" Fill="Gray" SnapsToDevicePixels="True"/>
+                       VerticalAlignment="Stretch" HorizontalAlignment="Center" Fill="Gray"/>
 
 
         </Grid>

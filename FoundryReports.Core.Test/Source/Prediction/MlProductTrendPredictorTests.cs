@@ -16,7 +16,7 @@ namespace FoundryReports.Core.Test.Source.Prediction
         private DateTime CurrentMonthToPredict { get; } = new DateTime(2020, 1, 1);
         private DateTime LatestMonthOfTrend => CurrentMonthToPredict.PreviousMonths(MlProductTrendPredictor.InputNodesCount);
 
-        [TestCase(0.5156118, new[]
+        [TestCase(0.5784, new[]
         {
             0.55410557, 0.42505458, 0.51299183, 0.52854088, 0.54266738, 0.49943218, 0.60640473, 0.25073919, 0.6435862,
             0.4223072, 0.57065117
@@ -31,7 +31,7 @@ namespace FoundryReports.Core.Test.Source.Prediction
             var result = predictor.Predict(CurrentMonthToPredict, AsProductTrend(previousValues));
 
             // assert
-            var precision = 10000000;
+            var precision = 10000;
             Assert.That(Math.Round(result.Value * precision), Is.EqualTo(Math.Round(expectedPrediction * precision)));
         }
 

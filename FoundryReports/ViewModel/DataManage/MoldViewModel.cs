@@ -16,7 +16,7 @@ namespace FoundryReports.ViewModel.DataManage
             }
         }
 
-        public int MaxUsages
+        public decimal MaxUsages
         {
             get => Mold.MaxUsages;
             set
@@ -26,7 +26,7 @@ namespace FoundryReports.ViewModel.DataManage
             }
         }
 
-        public int CurrentUsages
+        public decimal CurrentUsages
         {
             get => Mold.CurrentUsages;
             set

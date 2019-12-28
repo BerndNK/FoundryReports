@@ -33,7 +33,7 @@ namespace FoundryReports.ViewModel
         {
             _setup = new CoreSetup();
             DataManage = new DataManageMainViewModel(_setup.DataSource);
-            Graph = new GraphMainViewModel(DataManage.CustomerEditor.Children, DataManage.ProductEditor.Children);
+            Graph = new GraphMainViewModel(DataManage.CustomerEditor.Children, DataManage.ProductEditor.Children, _setup.EventPredictor);
             PersistCommand = new DelegateCommand(Persist);
         }
 
