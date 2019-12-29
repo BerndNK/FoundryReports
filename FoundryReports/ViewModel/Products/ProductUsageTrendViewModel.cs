@@ -85,7 +85,7 @@ namespace FoundryReports.ViewModel.Products
             var segments = await Task.Run(() =>
             {
                 var fromMonth = new DateTime(2019, 1, 1);
-                var toMonth = fromMonth.NextMonths(24);
+                var toMonth = fromMonth.NextMonths(16);
                 if (_predictor == null)
                     _predictor = new MlProductTrendPredictor();
 
