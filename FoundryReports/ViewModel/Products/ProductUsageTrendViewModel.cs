@@ -49,6 +49,7 @@ namespace FoundryReports.ViewModel.Products
                 return;
 
             UpdateProductTrend(monthlyProductUsageViewModel);
+            UpdatesAfterVisibilityChanged();
 
             MonthlyReportManuallyUpdated?.Invoke(this,
                 new MonthlyReportManuallyUpdatedEventArgs(monthlyProductUsageViewModel));
@@ -84,7 +85,7 @@ namespace FoundryReports.ViewModel.Products
             var segments = await Task.Run(() =>
             {
                 var fromMonth = new DateTime(2019, 1, 1);
-                var toMonth = fromMonth.NextMonths(16);
+                var toMonth = fromMonth.NextMonths(24);
                 if (_predictor == null)
                     _predictor = new MlProductTrendPredictor();
 
@@ -109,6 +110,8 @@ namespace FoundryReports.ViewModel.Products
                 selection.PropertyChanged += ProductSelectionOnPropertyChanged;
                 ProductSelection.Add(selection);
             }
+
+            UpdatesAfterVisibilityChanged();
         }
 
         public IEnumerable<IMonthlyProductReport> AllDisplayedReports()
@@ -152,6 +155,8 @@ namespace FoundryReports.ViewModel.Products
                     productSegment.MaxUsage = maxUsage;
                 }
             }
+
+            CreateYAxisDescriptions(minUsage, maxUsage);
         }
     }
 }

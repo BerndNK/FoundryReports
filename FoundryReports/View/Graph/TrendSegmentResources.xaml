@@ -22,20 +22,30 @@
                   StrokeThickness="2" StrokeEndLineCap="Square" StrokeStartLineCap="Square" />
 
             <Ellipse Width="10" Height="10" Canvas.Top="{Binding LineSegmentCenterY}"
-                     Canvas.Left="{Binding LineSegmentCenterX}" Margin="-5,-5,0,0" Visibility="{Binding HasEvent, Converter={x:Static converter:BoolToVisibility.Normal}}"
+                     Canvas.Left="{Binding LineSegmentCenterX}" Margin="-5,-5,0,0"
+                     Visibility="{Binding HasEvent, Converter={x:Static converter:BoolToVisibility.Normal}}"
                      Fill="{Binding StrokeColor, Converter={x:Static converter:ColorToBrush.Instance}}" Stroke="White" />
 
             <Ellipse Width="10" Height="10" Canvas.Top="{Binding LineSegmentCenterY}"
                      Canvas.Left="{Binding LineSegmentCenterX}" Margin="-5,-5,0,0" Fill="Transparent" Stroke="Black"
                      StrokeThickness="1" x:Name="HighlightEllipse" Visibility="Collapsed" />
 
-            <TextBlock Background="White" Text="{Binding DisplayValue}"
-                       Canvas.Top="{Binding LineSegmentCenterY}" Canvas.Left="{Binding LineSegmentCenterX}"
-                       Margin="-15,-15,0,0" x:Name="HoverText" Visibility="Collapsed" HorizontalAlignment="Center" />
+            <Grid x:Name="HitBoxGrid" Opacity="0.01" Background="White" Canvas.Top="{Binding LineSegmentCenterY}"
+                  Canvas.Left="{Binding LineSegmentCenterX}" Margin="-25,-10,0,0" Width="50" Height="20" />
+
+            <Popup x:Name="Popup" Placement="Mouse" HorizontalOffset="50" Width="100" Height="50">
+                <Border Background="White"
+                        BorderBrush="{Binding StrokeColor, Converter={x:Static converter:ColorToBrush.Instance}}"
+                        BorderThickness="2">
+                    <TextBlock Foreground="Black" Text="{Binding DisplayValue}" Margin="10"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
+                               x:Name="HoverText" />
+                </Border>
+            </Popup>
         </Canvas>
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="HoverText" Property="Visibility" Value="Visible" />
+                <Setter TargetName="Popup" Property="IsOpen" Value="True" />
                 <Setter TargetName="HighlightEllipse" Property="Visibility" Value="Visible" />
                 <Setter TargetName="LeftSegment" Property="StrokeThickness" Value="3" />
                 <Setter TargetName="RightSegment" Property="StrokeThickness" Value="3" />

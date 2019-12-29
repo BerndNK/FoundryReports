@@ -50,5 +50,10 @@ namespace FoundryReports.ViewModel.CastingCell
         {
             _castingCellUsageSegment.CalculateCastingCellUsages();
         }
+
+        public string CalculationDescription()
+        {
+            return _castingCellUsageSegment.CalculationDescription();
+        }
     }
 }

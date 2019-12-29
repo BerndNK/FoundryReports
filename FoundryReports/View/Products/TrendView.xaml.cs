@@ -1,4 +1,4 @@
-﻿namespace FoundryReports.View.Graph
+﻿namespace FoundryReports.View.Products
 {
     public partial class TrendView
     {

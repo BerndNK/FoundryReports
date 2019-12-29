@@ -17,6 +17,8 @@ namespace FoundryReports.ViewModel.CastingCell
         private readonly ProductUsageTrendViewModelFactory _trendViewModelFactory =
             new ProductUsageTrendViewModelFactory();
 
+        public event EventHandler? ValuesChanged; 
+
         public async Task LoadSegments(CustomerViewModel customer, ObservableCollection<ProductViewModel> products,
             IEnumerable<MonthlyProductUsageViewModel> manuallyChangedReports)
         {
@@ -40,7 +42,6 @@ namespace FoundryReports.ViewModel.CastingCell
                 MonthlyProductSegments.Add(new CastingCellUsageTrendSegmentViewModel(segment, products));
             }
 
-            UpdatesAfterVisibilityChanged();
             var allProducts = segments.SelectMany(m => m.Products).Distinct(ProductViewModel.EqualityByReferringToSameProduct);
             foreach (var productViewModel in allProducts)
             {
@@ -48,6 +49,8 @@ namespace FoundryReports.ViewModel.CastingCell
                 selection.PropertyChanged += ProductSelectionOnPropertyChanged;
                 ProductSelection.Add(selection);
             }
+
+            UpdatesAfterVisibilityChanged();
         }
 
         protected override void UpdatesAfterVisibilityChanged()
@@ -61,6 +64,9 @@ namespace FoundryReports.ViewModel.CastingCell
                 monthSegment.MaxUsage = maxUsage;
                 monthSegment.MinUsage = minUsage;
             }
+            
+            CreateYAxisDescriptions(minUsage, maxUsage);
+            ValuesChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

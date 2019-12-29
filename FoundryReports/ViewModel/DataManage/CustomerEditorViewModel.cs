@@ -42,10 +42,14 @@ namespace FoundryReports.ViewModel.DataManage
 
         private void Export()
         {
-            var dataAsCsv = DataAsCsv();
-            var targetPath = @"C:\Users\Bernd\OneDrive\Desktop\graphData.csv";
+            var saveFileDialog = new SaveFileDialog {Filter = "Comma delimited (*.csv)|*.csv", FileName = "graphData.csv"};
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var dataAsCsv = DataAsCsv();
+                var targetPath = saveFileDialog.FileName;
 
-            File.WriteAllText(targetPath, dataAsCsv);
+                File.WriteAllText(targetPath, dataAsCsv);
+            }
         }
 
         private string DataAsCsv()
@@ -59,7 +63,7 @@ namespace FoundryReports.ViewModel.DataManage
             foreach (var productUsage in customer.Children)
             {
                 sb.AppendLine(
-                    $"{productUsage.SelectedProduct?.Name ?? string.Empty};{((Month) productUsage.ForMonth.Month).ToString().Substring(0,3)} {productUsage.ForMonth.Year};{productUsage.Value.ToString(CultureInfo.InvariantCulture)}");
+                    $"{productUsage.SelectedProduct?.Name ?? string.Empty};{((Month) productUsage.ForMonth.Month).ToString().Substring(0, 3)} {productUsage.ForMonth.Year};{productUsage.Value.ToString(CultureInfo.InvariantCulture)}");
             }
 
             return sb.ToString();
@@ -84,7 +88,8 @@ namespace FoundryReports.ViewModel.DataManage
                     // use existing or create new item, to allow importer to enrich data
                     var newReport =
                         newCustomer.Children.FirstOrDefault(r =>
-                            r.SelectedProduct?.Name == monthlyProductReport.ForProduct.Name && r.ForMonth == monthlyProductReport.ForMonth) ?? newCustomer.AddItem();
+                            r.SelectedProduct?.Name == monthlyProductReport.ForProduct.Name &&
+                            r.ForMonth == monthlyProductReport.ForMonth) ?? newCustomer.AddItem();
 
                     newReport.Value = monthlyProductReport.Value;
                     newReport.ForMonth = monthlyProductReport.ForMonth;

@@ -14,20 +14,22 @@
 
     <Border BorderThickness="1" BorderBrush="Gray" Margin="5">
         <DockPanel>
-            <ItemsControl ItemsSource="{Binding YAxisDescriptions}" DockPanel.Dock="Left">
+            <Viewbox VerticalAlignment="Top" MaxHeight="450">
+            <ItemsControl ItemsSource="{Binding YAxisDescriptions}" DockPanel.Dock="Left" Margin="5,0,5,26" Height="450">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" />
+                        <TextBlock Text="{Binding}" FontWeight="Bold" FontSize="18"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid IsItemsHost="True" Columns="1"/>
+                        <UniformGrid IsItemsHost="True" Columns="1" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+            </Viewbox>
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" >
                 <Viewbox VerticalAlignment="Top" MaxHeight="450" HorizontalAlignment="Left">
                     <ListBox ItemsSource="{Binding MonthlySegments}" SelectedItem="{Binding SelectedSegment}"
                              VerticalAlignment="Top" BorderBrush="Transparent" ScrollViewer.CanContentScroll="False">

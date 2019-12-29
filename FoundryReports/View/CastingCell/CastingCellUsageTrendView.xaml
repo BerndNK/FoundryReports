@@ -13,6 +13,7 @@
             <ItemsControl ItemsSource="{Binding ProductSelection}" />
         </ScrollViewer>
 
+        
         <graph:GraphView />
     </DockPanel>
 </UserControl>

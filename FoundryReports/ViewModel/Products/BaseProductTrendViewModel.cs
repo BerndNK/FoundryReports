@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using FoundryReports.Core.Utils;
 using FoundryReports.ViewModel.DataManage;
 using FoundryReports.ViewModel.Graph;
 
@@ -15,6 +16,8 @@ namespace FoundryReports.ViewModel.Products
 
         public ObservableCollection<ProductSelectionViewModel> ProductSelection { get; } =
             new ObservableCollection<ProductSelectionViewModel>();
+
+        public ObservableCollection<string> YAxisDescriptions { get; } = new ObservableCollection<string>();
 
         public T? SelectedProductSegment { get; private set; }
 
@@ -37,7 +40,6 @@ namespace FoundryReports.ViewModel.Products
 
         protected virtual void UpdateSelectedSegmentRelevantProperties()
         {
-
         }
 
         protected bool IsVisible(MonthlyProductUsageViewModel monthlyProductUsageViewModel)
@@ -69,5 +71,16 @@ namespace FoundryReports.ViewModel.Products
         }
 
         protected abstract void UpdatesAfterVisibilityChanged();
+
+        protected void CreateYAxisDescriptions(in decimal minUsage, in decimal maxUsage)
+        {
+            YAxisDescriptions.Clear();
+            var intervals = NumberVisualization.DisplayRange((double) minUsage, (double) maxUsage, 4);
+            foreach (var interval in intervals.Reverse()
+            ) // the numbers go from top to bottom, while in the interval list its reversed.
+            {
+                YAxisDescriptions.Add(interval);
+            }
+        }
     }
 }

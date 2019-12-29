@@ -7,5 +7,7 @@ namespace FoundryReports.ViewModel.Graph
         ObservableCollection<IMonthGraphSegment> MonthlySegments { get; }
 
         IMonthGraphSegment? SelectedSegment { get; set; }
+
+        ObservableCollection<string> YAxisDescriptions { get; }
     }
 }

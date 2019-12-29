@@ -58,11 +58,11 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModelProducts:ProductUsageTrendViewModel}">
-        <viewGraph:TrendView />
+        <viewProducts:TrendView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModelProducts:TrendSegmentOfSingleMonthViewModel}">
-        <viewProducts:TrendOfSingleMonthView />
+        <viewGraph:TrendOfSingleMonthView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModelProducts:ProductSelectionViewModel}">
@@ -87,7 +87,7 @@
     </DataTemplate>
    
     <DataTemplate DataType="{x:Type viewModelCastingCell:CastingCellUsageTrendSegmentViewModel}">
-        <viewProducts:TrendOfSingleMonthView />
+        <viewGraph:TrendOfSingleMonthView />
     </DataTemplate>
 
     <!--Utils-->
