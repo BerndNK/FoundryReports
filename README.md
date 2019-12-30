@@ -17,7 +17,12 @@ Wichtig ist, dass nach jeder Änderung die persistiert werden soll, der Button "
 
 - "Products" zeigt den Verlauf von bestellten Produkten dar. Zusätzlich werden die nächsten paar Monate vorrausgesagt, mithilfe von neuralen Netzen und Machine Learning.
 ![Aufteilung der Products Sektion](https://github.com/BerndNK/FoundryReports/blob/master/Documentation/ProductSections.PNG?raw=true)
-In "A", kann man auswählen welche Produkte in "B" dargestellt werden sollen. Wählt man einen Monat aus, kann man die konkreten Werte in "C" ansehen und bearbeiten. Graue Werte sind geschätzt, während schwarze aus dem Datenbestand kommen. Hier kann auch erkennen, wie sich die Vorhersage anpasst, sollte man einen Wert ändern.
+In "A", kann man auswählen welche Produkte in "B" dargestellt werden sollen. Wählt man einen Monat aus, kann man die konkreten Werte in "C" ansehen und bearbeiten. 
+
+Graue Werte sind geschätzt, während schwarze aus dem Datenbestand kommen. Hier kann auch erkennen, wie sich die Vorhersage anpasst, sollte man einen Wert ändern.
+
+Diese Ansicht ist grundsätzlich wohl der einfachste Weg in das Tool Daten einzupflegen.
+
 Bei einigen Monaten ist auf dem Trend ein oder mehrere größere Punkte zu erkennen. Diese indizieren Events in dem jeweiligen Monat. Klickt man auf diesen, so werden die jeweiligen Events in "D" gelistet.
 - "Casting Cell" zeigt den Verlauf der Benutzung von Gußzellen. Der Graph funktioniert analog zu "Products". Hier sieht man allerdings keine Events, sondern es wird erläutert wie die Benutzung pro Monat berechnet wird.
 ![Casting Cell Sektion](https://github.com/BerndNK/FoundryReports/blob/master/Documentation/CastingCellSections.PNG?raw=true)
