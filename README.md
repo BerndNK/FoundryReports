@@ -80,7 +80,7 @@ Das funktioniert für ein paar Monate relativ gut, führt aber dazu dass das Net
 
 # Kompilieren
 Vorraussetzung: 
-- Visual Studio 2019 mit NetCore 3.0 SDK installiert ![NetCore 3 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.0)
+- Visual Studio 2019 mit NetCore 3.0 SDK installiert https://dotnet.microsoft.com/download/dotnet-core/3.0
 - 64-Bit Rechner
 
 "FoundryReports.sln" mit VisualStudio öffnen und über "Debug->Start" starten. In der Standardeinstellung entspricht das der F5 Taste. Visual Studio sollte automatisch NuGet Packete wiederherstellen und richtig das Projekt "FoundryReports" bauen. Wichtig ist auf x64 zu bauen (auch Tests), da die benutzten TensorFlow DLLs (via ML.Net) nur 64-Bit unterstützen.
